@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOGFLIX</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background: url('https://radika1.link/2025/08/08/MKDBANNER2b8c2f0e29a672f2.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 100%);
+            z-index: -1;
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(229, 9, 20, 0.6);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        .header-container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 40px;
+        }
+        
+        .top-header {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            width: 120px;
+        }
+        
+        .logo img {
+            width: 100%;
+            height: auto;
+        }
+        
+        .date {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 300;
+            white-space: nowrap;
+        }
+        
+        nav {
+            width: 100%;
+            position: relative;
+            margin-top: 15px;
+        }
+        
+        .menu-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+        }
+        
+        .menu {
+            display: flex;
+            list-style: none;
+            position: relative;
+            justify-content: center;
+            flex-wrap: nowrap;
+            gap: 25px;
+            padding-bottom: 15px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        
+        .menu::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .menu li {
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 300;
+            color: #aaa;
+            transition: color 0.3s;
+            position: relative;
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+            padding: 5px 0;
+            flex-shrink: 0;
+        }
+        
+        .menu li:hover {
+            color: #F21A24;
+        }
+        
+        .menu-line {
+            position: absolute;
+            bottom: 0; /* Изменено для видимости */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250%;
+            height: 1px;
+            background: linear-gradient(to right, transparent 5%, #F21A24 50%, transparent 95%);
+            display: block; /* Гарантированное отображение */
+        }
+        
+        .menu-slider {
+            position: absolute;
+            bottom: 0; /* Изменено для видимости */
+            height: 2px;
+            background-color: #F21A24;
+            transition: all 0.3s;
+            width: 0;
+        }
+        
+        .section {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .genres {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .title {
+            font-size: clamp(28px, 6vw, 48px);
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .info {
+            color: #aaa;
+            font-size: clamp(12px, 2vw, 14px);
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            font-weight: 300;
+        }
+        
+        .description {
+            max-width: 600px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            font-size: clamp(14px, 2.5vw, 16px);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            font-weight: 300;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-watch {
+            background-color: #e50914;
+            color: white;
+        }
+        
+        .btn-watch:hover {
+            background-color: #f40612;
+        }
+        
+        .btn-subscribe {
+            background-color: rgba(109, 109, 110, 0.7);
+            color: white;
+        }
+        
+        .btn-subscribe:hover {
+            background-color: rgba(109, 109, 110, 0.9);
+        }
+        
+        .popular {
+            margin-top: 100px;
+        }
+        
+        .popular-title {
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            font-weight: 500;
+        }
+        
+        .popular-items {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            scrollbar-width: none;
+        }
+        
+        .popular-items::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .popular-item {
+            min-width: 120px;
+            height: 160px;
+            /* Изменено на серый цвет */
+            background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: white;
+            border-radius: 4px;
+            transition: transform 0.3s;
+            font-weight: 700;
+            flex-shrink: 0;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            /* Изменено на серую границу */
+            border: 1px solid #555;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+        
+        .popular-item:hover {
+            /* Убрано вращение */
+            transform: scale(1.03);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Стили для раздела серий */
+        .episodes-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .episodes-wrapper {
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden; 
+            padding: 0 40px; 
+        }
+
+        .episodes {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 10px 0;
+            scrollbar-width: none;
+            scroll-snap-type: x mandatory;
+        }
+
+        .episodes::-webkit-scrollbar {
+            display: none;
+        }
+
+        .episode {
+            width: calc(22.22% - 13.33px); 
+            min-width: calc(22.22% - 13.33px); 
+            height: 150px;
+            background-color: rgba(34, 34, 34, 0.7);
+            padding: 12px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            flex: 0 0 auto;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            scroll-snap-align: start;
+        }
+
+        .episode.active {
+            background-color: rgba(229, 9, 20, 0.3);
+            border: 1px solid rgba(229, 9, 20, 0.5);
+        }
+
+        .episode:hover {
+            transform: scale(1.02);
+        }
+
+        .episode-title {
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .episode-desc {
+            font-size: 12px;
+            color: #aaa;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        .episode-details {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(34, 34, 34, 0.7);
+            border-radius: 4px;
+            animation: fadeIn 0.3s ease-in-out;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .episode-details-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #e50914;
+        }
+
+        .episode-details-desc {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background-color: rgba(229, 9, 20, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            border: none;
+            outline: none;
+        }
+
+        .nav-arrow:hover {
+            opacity: 1;
+        }
+
+        .arrow-left {
+            left: 0;
+        }
+
+        .arrow-right {
+            right: 0;
+        }
+
+        .arrow-icon {
+            color: white;
+            font-size: 16px;
+        }
+
+        .content-wrapper {
+            margin-top: 200px;
+            padding-left: 0;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: #141414;
+            padding: 20px;
+            border-radius: 6px;
+            max-width: 350px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        
+        .modal-price {
+            font-size: 24px;
+            color: #e50914;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .modal-close {
+            background-color: #e50914;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .modal-close:hover {
+            background-color: #f40612;
+        }
+
+        .facts-image {
+            max-width: 100%;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            border: 1px solid #e50914;
+        }
+        
+        .image-caption {
+            text-align: center;
+            font-size: 14px;
+            color: #aaa;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        /* Новое модальное окно для плашек */
+        .warning-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .warning-content {
+            background-color: #2c2c2c;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            border: 2px solid #e50914;
+            box-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
+        }
+        
+        .warning-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #e50914;
+            font-weight: bold;
+        }
+        
+        .warning-text {
+            font-size: 16px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        
+        .warning-close {
+            background-color: #e50914;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .warning-close:hover {
+            background-color: #f40612;
+        }
+		
+				.character-card {
+		  background-color: rgba(34, 34, 34, 0.8);
+		  padding: 20px;
+		  border-radius: 6px;
+		  max-width: 400px;
+		  color: #fff;
+		  box-shadow: 0 0 10px rgba(229, 9, 20, 0.6);
+		  margin-bottom: 30px;
+		  font-weight: 300;
+		}
+
+		.character-card .title {
+		  font-size: 28px;
+		  font-weight: 700;
+		  color: #e50914;
+		  margin-bottom: 15px;
+		  text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+		}
+
+		.character-info p {
+		  margin-bottom: 8px;
+		  font-size: 16px;
+		}
+
+		.character-abilities h3 {
+		  margin-top: 20px;
+		  margin-bottom: 10px;
+		  font-weight: 500;
+		  font-size: 18px;
+		  color: #f21a24;
+		  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+		}
+
+		.character-abilities ul {
+		  list-style-type: disc;
+		  padding-left: 20px;
+		  font-size: 14px;
+		  line-height: 1.5;
+		}
+
+		.character-abilities li {
+		  margin-bottom: 8px;
+		}
+
+        @media (min-width: 768px) {
+            .header-container {
+                margin-bottom: 60px;
+            }
+            
+            .logo {
+                width: 150px;
+            }
+            
+            nav {
+                margin-top: 20px;
+            }
+            
+            .content-wrapper {
+                margin-top: 50px;
+                padding-left: 30px;
+            }
+            
+            .popular-item {
+                min-width: 160px;
+                height: 200px;
+            }
+            
+            .btn {
+                padding: 10px 25px;
+                font-size: 15px;
+            }
+            
+            .popular {
+                margin-top: 40px;
+            }
+            
+            .episodes-container {
+                width: 80%;
+            }
+        }
+
+        @media (min-width: 992px) {
+            body {
+                padding: 30px;
+            }
+            
+            .logo {
+                width: 180px;
+            }
+            
+            .content-wrapper {
+                margin-top: 80px;
+                padding-left: 50px;
+            }
+            
+            .popular-item {
+                min-width: 180px;
+                height: 240px;
+            }
+            
+            .episodes-container {
+                width: 60%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .nav-arrow {
+                display: flex;
+            }
+            
+            .episodes-wrapper {
+                padding: 0 40px;
+            }
+
+            .episode {
+                width: calc(33.33% - 10px);
+                min-width: calc(33.33% - 10px);
+            }
+            
+            .menu {
+                justify-content: flex-start;
+                gap: 20px;
+            }
+            
+            /* Скрываем линию на мобильных */
+            .menu-line {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .episode {
+                width: calc(50% - 8px);
+                min-width: calc(50% - 8px);
+            }
+            
+            .menu {
+                gap: 15px;
+            }
+            
+            .popular-item {
+                min-width: 140px;
+                height: 170px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-particles" id="particles"></div>
+
+    <div class="header-container">
+        <div class="top-header">
+            <div class="logo">
+                <img src="https://radika1.link/2025/08/08/logo5717d08bdb27fb8e.png" alt="HOGFLIX">
+            </div>
+            <div class="date">| Понедельник, 11 августа • 12:10</div>
+        </div>
+        
+        <nav>
+            <div class="menu-container">
+                <ul class="menu">
+                    <li data-section="home">Главная</li>
+                    <li data-section="about">Описание</li>
+                    <li data-section="episodes">Серии</li>
+                    <li data-section="facts">Fun Facts</li>
+                    <div class="menu-line"></div>
+                    <div class="menu-slider"></div>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    
+    <div class="content-wrapper">
+        <section id="home" class="section active">
+            <div class="genres">фэнтези | детектив | драма</div>
+            <h1 class="title">Потерянная в песках.  <br> Путь домой</h1>
+            <div class="info">2025 | Blake Cringe Production & Ellington Cockroach Entertainment | Сезон: 1 (8 серий)</div>
+            <div class="description">
+                Знак на запястье — ключ к забытой трагедии. Сладости — ее магия. Поэт — ее оружие.
+            </div>
+            <div class="buttons">
+                <button class="btn btn-watch" id="watch-btn">Смотреть</button>
+                <button class="btn btn-subscribe" id="subscribe-btn">Купить подписку</button>
+            </div>
+            
+            <div class="popular">
+                <div class="popular-title">ПОПУЛЯРНО НА ЭТОЙ НЕДЕЛЕ</div>
+                <div class="popular-items">
+                    <div class="popular-item"><center>ТВОЙ<BR> ВЕРБЛЮД<br> ХМУР?<br> <br> Сделай  <br>ему <br> КАРВИНГ!</center></div>
+                    <div class="popular-item"><center>ТЫ СОШЕЛ <BR>С УМА,<BR> ЕСЛИ<BR> РЕШИЛ <BR> ЗАГАДАТЬ <BR>ЭТИ ТРИ<BR> ЖЕЛАНИЯ <BR>ДЖИННУ! </center></div>
+                    <div class="popular-item"><center>Увидел <BR>БЕЛОГО ВЕРБЛЮДА <BR>во сне? <BR><BR>СКОРЕЕ <BR>БЕГИ на ...</center></div>
+                    <div class="popular-item"><center>БАЗАР НА ТОПЧАНЕ:<BR> <BR>ШОК!<BR><BR> КТО ПРАВИТ <BR>ЧЁРНЫМ <BR>РЫНКОМ<BR> ФИНИКОВ?</center></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="about" class="section">
+            <h2 class="title">Описание сериала</h2>
+            <div class="description">
+                <p>Найденная умирающей от жажды и истощения в сирийской пустыне, Бэда Эйллынз — девушка с загадочным знаком на руке и даром магии специй, обретает новый дом в оазисе Аль-Рахма, недалеко от Пальмиры.</p> 
+                <br>
+                <p>Спустя десять лет спокойной жизни с приемной матерью Маджидой Арваз она случайно раскрывает страшную тайну своего прошлого. Жажда справедливости и возмездия ведет ее к дерзкому плану: чтобы мир услышал ее историю, она должна стать музой легендарного поэта Джалаладдина ибн-ла-Сираба, чьи стихи станут голосом Царицы Востока — женщины, обладающей силой наказать виновных.</p>
+                <br>
+                <p>Сможет ли Бэда обойти многочисленных претенденток на роль музы или соперницы помешают ей занять это место?</p>
+            </div>       
+        </section>
+        
+        <section id="episodes" class="section">
+            <h2 class="title">Серии</h2>
+            <div class="episodes-container">
+                <div class="episodes-wrapper">
+                    <button class="nav-arrow arrow-left" id="arrow-left">
+                        <span class="arrow-icon">←</span>
+                    </button>
+                    <div class="episodes" id="episodes-list">
+                        <div class="episode" data-episode="1">
+                            <h3 class="episode-title">Серия 1: Дитя барханов</h3>
+                            <p class="episode-desc">Нажми, чтобы прочитать описание</p>
+                        </div>
+                        <div class="episode" data-episode="2">
+                            <h3 class="episode-title">Серия 2: Под сенью Аль-Рахма</h3>
+                            <p class="episode-desc">Нажми, чтобы прочитать описание</p>
+                        </div>
+                        <div class="episode" data-episode="3">
+                            <h3 class="episode-title">Серия 3: Вкус тепла</h3>
+                            <p class="episode-desc">Нажми, чтобы прочитать описание</p>
+                        </div>
+                        <div class="episode" data-episode="4">
+                            <h3 class="episode-title">Серия 4: Неожиданный гость</h3>
+                            <p class="episode-desc">Нажми, чтобы прочитать описание</p>
+                        </div>
+                        <div class="episode" data-episode="5">
+                            <h3 class="episode-title">Серия 5: Шепот о прошлом</h3>
+                            <p class="episode-desc">Нажми, чтобы прочитать описание</p>
+                        </div>
+                        <div class="episode" data-episode="6">
+                            <h3 class="episode-title">Серия 6: Стихи на ветру</h3>
+                            <p class="episode-desc">Нажми, чтобы прочитать описание</p>
+                        </div>
+                        <div class="episode" data-episode="7">
+                            <h3 class="episode-title">Серия 7: </h3>
+                            <p class="episode-desc">18 августа</p>
+                        </div>
+                        <div class="episode" data-episode="8">
+                            <h3 class="episode-title">Серия 8: </h3>
+                            <p class="episode-desc">25 августа</p>
+                        </div>
+                    </div>
+                    <button class="nav-arrow arrow-right" id="arrow-right">
+                        <span class="arrow-icon">→</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="episode-details" id="episode-details">
+
+            </div>
+        </section>
+        
+        <section id="facts" class="section">
+            <h2 class="title">Fun Facts</h2>
+			 <br>
+					<div class="character-card">
+		  <h2 class="title">Бэда Эйллынз</h2>
+		  <div class="character-info">
+		                  <p>Значение имени Бэда. В классическом арабском بدع (beda‘) — это существительное, означающее «новшество», «нововведение», особенно в религиозном или культурном контексте, часто с негативной коннотацией «ересь», «неправильное нововведение». Это слово встречается в арабских словарях, например, в классическом Лидже или Казвини.</p>
+ <br>
+			<p><strong>Возраст:</strong> 16 лет</p>
+			<p><strong>Родом из:</strong> Газиантеп, Анатолия</p>
+		  </div>
+		  <div class="character-abilities">
+			<h3>Особые навыки и способности:</h3>
+			<ul>
+			  <li><strong>Магия специй</strong> — пробуждает воспоминания, лечит и влияет на чувства через пряные смеси и древние рецепты.</li>
+			  <li><strong>Верблюжий карвинг</strong> — искусство выстригать изящные узоры на шерсти верблюдов, превращая их в живые произведения искусства.</li>
+			</ul>
+		  </div>
+		</div>
+			
+            <div class="description">
+                <br>
+                <img src="https://radika1.link/2025/08/11/KARTAb61dc44688fea61c.png" alt="Карта событий" class="facts-image">
+                <div class="image-caption">Карта событий в сериале</div>
+            </div>
+        </section>
+    </div>
+
+
+    <div class="modal" id="subscribe-modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Подписка на HOGFLIX</h2>
+            <div class="modal-price">100500 медовых фиников</div>
+            <p>Полный доступ ко всем сериалам и фильмам без ограничений</p>
+            <br>
+            <button class="modal-close" id="close-subscribe-modal">Закрыть</button>
+        </div>
+    </div>
+    
+    <div class="modal" id="watch-modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Доступ к просмотру</h2>
+            <p>Просмотр сериала доступен только при наличии подписки</p>
+            <br>
+            <button class="modal-close" id="close-watch-modal">Закрыть</button>
+        </div>
+    </div>
+
+
+    <div class="warning-modal" id="warning-modal">
+        <div class="warning-content">
+            <h2 class="warning-title">Ай-яй-яй!</h2>
+            <p class="warning-text">Беклы предупреждают: никогда не переходите по таким ссылкам!</p>
+            <button class="warning-close" id="close-warning-modal">Понятно</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Создание плавающих частиц
+            function createParticles() {
+                const particlesContainer = document.getElementById('particles');
+                const particleCount = 20;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 15 + 's';
+                    particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                    particlesContainer.appendChild(particle);
+                }
+            }
+            
+            createParticles();
+
+            const menuItems = document.querySelectorAll('.menu li');
+            const slider = document.querySelector('.menu-slider');
+            const sections = document.querySelectorAll('.section');
+            const subscribeBtn = document.getElementById('subscribe-btn');
+            const watchBtn = document.getElementById('watch-btn');
+            const subscribeModal = document.getElementById('subscribe-modal');
+            const watchModal = document.getElementById('watch-modal');
+            const closeSubscribeModal = document.getElementById('close-subscribe-modal');
+            const closeWatchModal = document.getElementById('close-watch-modal');
+            const warningModal = document.getElementById('warning-modal');
+            const closeWarningModal = document.getElementById('close-warning-modal');
+            
+            // Инициализация слайдера под первым пунктом меню
+            const firstItem = document.querySelector('.menu li[data-section="home"]');
+            updateSlider(firstItem);
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Убираем активный класс у всех секций
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Показываем выбранную секцию
+                    const sectionId = this.getAttribute('data-section');
+                    document.getElementById(sectionId).classList.add('active');
+                    
+                    // Обновляем позицию слайдера
+                    updateSlider(this);
+                });
+                
+                item.addEventListener('mouseenter', function() {
+                    updateSlider(this);
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    // Возвращаем слайдер к активному пункту
+                    const activeItem = document.querySelector('.menu li[data-section="' + 
+                        document.querySelector('.section.active').id + '"]');
+                    updateSlider(activeItem);
+                });
+            });
+            
+            function updateSlider(item) {
+                const itemRect = item.getBoundingClientRect();
+                const menuRect = document.querySelector('.menu').getBoundingClientRect();
+                
+                slider.style.width = itemRect.width + 'px';
+                slider.style.left = (itemRect.left - menuRect.left) + 'px';
+            }
+            
+            // Обработчики модальных окон
+            subscribeBtn.addEventListener('click', function() {
+                subscribeModal.style.display = 'flex';
+            });
+            
+            watchBtn.addEventListener('click', function() {
+                watchModal.style.display = 'flex';
+            });
+            
+            closeSubscribeModal.addEventListener('click', function() {
+                subscribeModal.style.display = 'none';
+            });
+            
+            closeWatchModal.addEventListener('click', function() {
+                watchModal.style.display = 'none';
+            });
+            
+            // Закрытие модальных окон при клике вне их
+            window.addEventListener('click', function(event) {
+                if (event.target === subscribeModal) {
+                    subscribeModal.style.display = 'none';
+                }
+                if (event.target === watchModal) {
+                    watchModal.style.display = 'none';
+                }
+                if (event.target === warningModal) {
+                    warningModal.style.display = 'none';
+                }
+            });
+
+            // Адаптация меню при ресайзе
+            window.addEventListener('resize', function() {
+                const activeItem = document.querySelector('.menu li[data-section="' + 
+                    document.querySelector('.section.active').id + '"]');
+                if (activeItem) {
+                    updateSlider(activeItem);
+                }
+            });
+
+            // Добавляем обработчики для серий
+            const episodes = document.querySelectorAll('.episode');
+            const episodesList = document.getElementById('episodes-list');
+            const episodeDetails = document.getElementById('episode-details');
+            const arrowLeft = document.getElementById('arrow-left');
+            const arrowRight = document.getElementById('arrow-right');
+
+            // Данные для подробного описания серий
+            const episodesData = {
+                1: {
+                    title: "Серия 1: Дитя барханов",
+                    description: "Пески помнят все. Даже тех, кого люди предпочли бы забыть.<br><br>Обычный торговый караван, двигавшийся по дороге между Газинтепом и сирийской пустыней, заметил в тени дюны маленькую девочку. Она сидела, поджав ноги к груди, и смотрела в одну точку, как будто все вокруг перестало существовать. Лицо было покрыто пылью, губы пересохли и потрескались.<br><br> Она не назвала своего имени, просто не помнила. Потрясение и дни, проведенные в блужданиях по пустыне, стерли в памяти все кроме страха и желания жить. Караванщики заметили странный знак на ее запястье, похожий на звездочку бадьяна, но не стали расспрашивать.<br><br> Девочка несколько недель путешествовала вместе с ними, прижимаясь к мешкам с товарами, слушая крики погонщиков и набираясь сил. И вот, когда караван остановился отдохнуть у оазиса Аль-Рахма, что притаился неподалеку от Пальмиры, ее передали на воспитание женщине по имени Маджида."
+                },
+                2: {
+                    title: "Серия 2: Под сенью Аль-Рахма",
+                    description: "У Маджиды Арваз было небольшое хозяйство. Она заботилась о верблюдах, особенно о тех, что попадали к ней израненными, изможденными или с покалеченными ногами. Она выхаживала их, лечила, кормила, и только когда животные снова поднимали головы, отпускала их обратно в путь.<br><br>С самого начала Бэда проявила редкое терпение и мягкость: могла часами сидеть рядом с животным, меняя повязки и поя водой. Маджида ценила в ней эту сердечность, и именно поэтому решила обучить девочку своему ремеслу — искусству верблюжьего карвинга.<br><br>В теплых сумерках, когда дневная жара спадала, они вместе расчесывали густую шерсть, а Маджида показывала, как ровно подравнивать пряди, как намечать будущие узоры. Она рассказывала о фестивалях — о верблюдах с орнаментами, похожими на ковры дворцов; о Биканере в Индии, где собираются мастера со всего света; о конкурсах красоты в Абу-Даби, где узоры на шерсти становятся произведениями искусства. <br><br>Под ее чутким руководством Бэда научилась выстригать тонкие арабески и переплетения, а главное — понимала, что красота узора не имеет смысла, если животное страдает. Поэтому она всегда начинала с заботы: лечение, еда, ласка, и лишь потом — работа над узором."      },
+                3: {
+                    title: "Серия 3: Вкус тепла",
+                    description: "Бэда росла доброй и отзывчивой. Ее руки знали, как правильно погладить верблюда по шее, чтобы тот перестал дрожать, и как тихо шепнуть слова, от которых даже самый упрямый верблюжонок переставал плеваться, завидя людей. Она могла сидеть часами рядом с больным животным, меняя повязки, поя его водой, и, казалось, передавала ему частицу своей силы.<br><br>Но заботы Бэды не ограничивалась только животными. В маленькой, темной кухне их с Маджидой дома она творила другую магию — сладкую и пряную. Бэда готовила басбусу, пропитанную цветочным медом; мягкие финиковые лепешки, щедро сдобренные корицей; пахлаву, в которой слои теста таяли во рту, уступая место орехам и шафрану; кунжутную халву с щепоткой кардамона; рахат-лукум с розовой водой и дроблеными фисташками.<br><br>Каждое угощение, сотворенное ею, было не просто вкусным, а волшебным. Она знала, как смешать корицу с мускатным орехом так, чтобы вкус напоминал о доме тем, кто его давно покинул. Как добавить щепотку молотого имбиря в пирог, чтобы прогнать пустынную усталость. Как сдобрить кремовую начинку ванилью и каплей апельсинового цвета, чтобы на сердце стало светлее.<br><br>Путники говорили, что ее сладости «успокаивают сердечные боли», а караванщики шутили, что из-за Бэды оазис Аль-Рахма стал местом, куда люди возвращаются не за отдыхом и модной стрижкой для верблюда, а за вторым кусочком пахлавы. Она же смущенно отмахивалась, считая, что все дело в специях и ее вдохновении. Но мудрая Маджида понимала — в выпечке девочки жила та самая магия рода Эйллынз, о которой ей рассказывала сказки ее бабушка и в существование, которой она до недавнего времени не верила."
+                },
+                4: {
+                    title: "Серия 4: Неожиданный гость",
+                    description: "Слухи о человеке, что появился у ворот оазиса Аль-Рахма в тот день, ходили самые разные. Высокий, с холодным взглядом. Его тень, растянулась на раскаленном песке. Его манеры были резкими, голос грубоватым, а в глазах темная глубина, от которой верблюды заметно напрягались и начинали нервно шуметь с своих стойлах.<br><br>Он сел за стол без приглашения и попробовав пахлаву, которую подала Бэда, пригубил свежего черного чаю. Вкус угощения его удивил, настолько тонким и необычным он оказался. Нежданный гость не спешил показывать своего удивления, но именно после этого он приглядеться к девушке внимательнее.<br><br>Дахбар Аль-Джабар — джинн, о котором шептались в караванах, заметил на ее запястье знак. Резко схватив руку Бэды, и вынуждая ее неловко дернуться и вскрикнуть от страха он поделился с ней тайной о том. что она носит на теле знак род Эйллынз, что исчезли с лица земли десять лет назад. Незнакомец посоветовал Бэде посетить Караван-Базар Аль-Мирсафа на пятый день после того, как во сне ей явится белый верблюд. По его словам там она сможет найти ответы на вопросы о своем прошлом."
+                },
+                5: {
+                    title: "Серия 5: Шепот о прошлом",
+                    description: "Бэда терзается мыслями о том, что рассказал ей таинственный мужчина. Неожиданно, решение ей помогает принять Маджида. Она рассказывает приемной дочери историю о клане, обладавшем магией, способной оказывать влияние на людей, на их настроение и даже самочувствие. По взгляду Маджиды Бэда понимает: та подозревала, что в ней есть что-то особенное, но никогда ей об этом не рассказывала. <br><br> Как и было обещано, белый верблюд сотканный из миллиарда песчинок, явился Бэде во сне. На утро пятого дня она собралась и отправилась в путь. На базаре, среди запахов пряностей и гулких голосов торговцев, она стояла у своего прилавка, торгуя выпечкой, когда неожиданно к ней подошел старик с уставшим, но пронзительным взглядом.<br><br> Он признается ей, что все десять лет верил в то, что юной госпоже удалось спастись в тот роковой день, когда на клан Эйллынз напали. Бэда узнает о том, как однажды ночью их дом был охвачен пламенем, сады вырублены, а специи, которыми владела ее семья, развеяны по ветру. Наследница считалась пропавшей без вести, а клан стертым с лица земли. "
+                },
+                6: {
+                    title: "Серия 6: Стихи на ветру",
+                    description: "Бэда пытается смириться с правдой, но жажда возмездия слишком велика. Она узнает о Джалаладдине ибн-ла-Сирабе — великом поэте, который ищет вдохновение для написания нового произведения, достойного стать бессмертным. И Бэда уверена, она сможет вдохновить творца. Его новое творение воспоют в каждом уголке мира.<br><br>Для Бэды это не просто честь или слава. Это шанс вернуть украденное: имя, наследие, справедливость. Стать новой музой поэта — значит вплести кровавую историю клана Эйллынз, которой пытались стереть из людской памяти, в бессмертную песнь Востока.  Быть Царицей Востока — значит вернуть утраченную силу и направить ее на восстановление справедливости. Каждое произнесенное Поэтом слово о клане Эйллынз будет шагом к разоблачению тех, кто прячется во тьме."   
+                },
+                7: {
+                    title: "Серия 7:",
+                    description: "Дата выхода серии - 18.08"   
+                },
+                8: {
+                    title: "Серия 8:",
+                    description: "Дата выхода серии - 25.08" 
+                }
+            };
+
+            // Обработчик клика по серии
+            episodes.forEach(episode => {
+                episode.addEventListener('click', function() {
+                    // Убираем активный класс у всех серий
+                    episodes.forEach(ep => ep.classList.remove('active'));
+                    
+                    // Добавляем активный класс текущей серии
+                    this.classList.add('active');
+                    
+                    // Получаем номер серии из data-атрибута
+                    const episodeNum = this.getAttribute('data-episode');
+                    
+                    // Заполняем блок с подробностями
+                    episodeDetails.innerHTML = `
+                        <h3 class="episode-details-title">${episodesData[episodeNum].title}</h3>
+                        <p class="episode-details-desc">${episodesData[episodeNum].description}</p>
+                    `;
+                    
+                    // Показываем блок с подробностями
+                    episodeDetails.style.display = 'block';
+                });
+            });
+
+            // Прокрутка серий стрелками
+            arrowLeft.addEventListener('click', function() {
+                const scrollAmount = episodesList.offsetWidth * 0.9;
+                episodesList.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            });
+
+            arrowRight.addEventListener('click', function() {
+                const scrollAmount = episodesList.offsetWidth * 0.9;
+                episodesList.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            });
+
+            // Автоматически выбираем первую серию при загрузке страницы
+            if (episodes.length > 0) {
+                episodes[0].click();
+            }
+
+            // Обработчики для плашек "Популярно"
+            const popularItems = document.querySelectorAll('.popular-item');
+            popularItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    warningModal.style.display = 'flex';
+                });
+            });
+
+            // Закрытие модального окна с предупреждением
+            closeWarningModal.addEventListener('click', function() {
+                warningModal.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
