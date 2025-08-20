@@ -1,0 +1,1245 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cockroach Quibbler</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪳</text></svg>">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0f0f10;
+      --card:#121214;
+      --accent:#FFCC00; 
+      --danger:#FF3B30; 
+      --muted:#bfc2c6;
+      --max-width:1100px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background:linear-gradient(180deg,#0b0b0c 0%, #121214 100%);
+      color:#eee;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{
+      max-width:var(--max-width);
+      margin:24px auto;
+      padding:0 18px;
+    }
+
+    /* Header */
+    header.site-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:18px;
+      position: relative;
+      flex-wrap: nowrap;
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      min-width: 0;
+      flex-shrink: 1;
+    }
+    .logo{
+      background:var(--accent);
+      color:#111;
+      font-weight:900;
+      padding:10px 14px;
+      border-radius:6px;
+      font-family:"Playfair Display", serif;
+      font-size:20px;
+      letter-spacing:0.6px;
+      flex-shrink: 0;
+    }
+    .tag{
+      color:var(--muted);
+      font-size:13px;
+      margin-top:4px;
+    }
+    
+    /* Гамбургер меню */
+    .hamburger-menu {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      position: relative;
+      z-index: 1001;
+      flex-shrink: 0;
+    }
+    
+    .hamburger-menu span {
+      width: 24px;
+      height: 3px;
+      background-color: var(--muted);
+      margin: 2px 0;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+    
+    .hamburger-menu.active span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+    
+    .hamburger-menu.active span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .hamburger-menu.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+    
+    nav.top-nav{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex-wrap: nowrap;
+    }
+    nav.top-nav a{
+      padding:8px 12px;
+      border-radius:6px;
+      background:transparent;
+      color:var(--muted);
+      font-size:14px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    nav.top-nav a:hover,
+    nav.top-nav a:focus {
+      background:rgba(255,255,255,0.05);
+      color:#fff;
+    }
+    nav.top-nav a.cta{
+      background:var(--danger);
+      color:white;
+      font-weight:600;
+    }
+
+    /* Hero area */
+    .hero{
+      display:grid;
+      grid-template-columns: 1fr 320px;
+      gap:18px;
+      margin-bottom:18px;
+    }
+    .lead-card{
+      background:linear-gradient(180deg, rgba(255,204,0,0.06), rgba(255,59,48,0.02));
+      border:1px solid rgba(255,255,255,0.04);
+      padding:18px;
+      border-radius:10px;
+    }
+    .lead-img{
+      width:100%;
+      height:320px;
+      background:#222 url('placeholder-hero.jpg') center/cover no-repeat;
+      border-radius:8px;
+      margin-bottom:12px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:flex-start;
+      padding:12px;
+    }
+    .lead-eyebrow{
+      background:var(--accent);
+      color:#111;
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:6px;
+      font-weight:700;
+      margin-bottom:8px;
+      font-size:13px;
+    }
+    .lead-title{
+      font-family:"Playfair Display", serif;
+      font-size:28px;
+      margin:6px 0 8px;
+      color:#fff;
+    }
+    .lead-excerpt{ color:var(--muted); }
+
+    /* Right column widgets */
+    .widget{
+      background:var(--card);
+      border-radius:10px;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.03);
+      margin-bottom:12px;
+    }
+    .widget h4{ margin:0 0 8px 0; font-size:15px; color:var(--accent); }
+    .small-list{display:flex;flex-direction:column;gap:10px}
+    .small-item{display:flex;gap:10px;align-items:center}
+    .small-thumb{width:74px;height:54px;background:#333;border-radius:6px;flex-shrink:0}
+    .small-meta{font-size:13px;color:var(--muted)}
+
+    /* Main columns */
+    .columns{
+      display:grid;
+      grid-template-columns: 1fr 320px;
+      gap:18px;
+      margin-top:10px;
+    }
+
+    /* Article cards */
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      border-radius:10px;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.03);
+      margin-bottom:12px;
+    }
+    .card .title{
+      font-weight:700;
+      color:#fff;
+      font-size:18px;
+      margin-bottom:6px;
+      font-family:"Playfair Display", serif;
+    }
+    .card .meta{ font-size:13px; color:var(--muted); margin-bottom:8px; }
+    .chip{ display:inline-block; background:rgba(255,59,48,0.12); color:var(--danger); padding:6px 8px; border-radius:6px; font-weight:700; font-size:12px; margin-right:8px; }
+    .chip.yellow{ background:rgba(255,204,0,0.12); color:var(--accent); }
+    .chip.red{ background:rgba(255,59,48,0.12); color:var(--danger); }
+    .chip.green{ background:rgba(76,217,100,0.12); color:#4CD964; }
+
+    .gallery-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap:8px; }
+    .gallery-item{ background:#222; height:82px; border-radius:6px; display:block; }
+
+    /* Sidebar special */
+    .sidebar .sticky{
+      position:sticky;
+      top:18px;
+    }
+    .telegram-mock{ background:linear-gradient(180deg,#0f1720,#0b1013); padding:10px; border-radius:8px; color:var(--muted); font-size:13px; }
+    .ad{ background:#151515; padding:10px; border-radius:8px; color:var(--muted); text-align:center; font-size:14px; }
+    
+    /* New elements */
+    blockquote {
+      border-left: 3px solid var(--accent);
+      padding-left: 12px;
+      margin: 12px 0;
+      color: var(--muted);
+      font-style: italic;
+    }
+    .cta {
+      display: inline-block;
+      margin-top: 10px;
+      background: var(--accent);
+      color: #000;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: all 0.2s ease;
+    }
+    .cta:hover {
+      background: #ffd633;
+      transform: translateY(-2px);
+    }
+    .recipe-link {
+      color: var(--accent);
+      font-weight: bold;
+      text-decoration: underline;
+      transition: all 0.2s ease;
+    }
+    .recipe-link:hover {
+      color: #ffd633;
+    }
+
+    footer{ margin:30px 0 80px; color:var(--muted); text-align:center; font-size:13px; }
+
+    /* Mobile menu overlay */
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 15, 16, 0.95);
+      z-index: 999;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .mobile-menu-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+    
+    .mobile-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+    }
+    
+    .mobile-nav a {
+      padding: 15px 30px;
+      font-size: 18px;
+      color: var(--muted);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .mobile-nav a:hover,
+    .mobile-nav a:focus {
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+    }
+    
+    .mobile-nav a.cta {
+      background: var(--danger);
+      color: white;
+      margin-top: 20px;
+    }
+
+    /* Modal styles */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 10000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      background: var(--card);
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 400px;
+      width: 85%;
+      box-shadow: 0 0 30px var(--accent);
+      border: 2px solid var(--accent);
+      position: relative;
+    }
+    
+    .modal h3 {
+      color: var(--accent);
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 24px;
+      font-family: 'Playfair Display', serif;
+    }
+    
+    .modal p {
+      color: var(--muted);
+      margin: 15px 0;
+      line-height: 1.5;
+    }
+    
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    
+    .modal-button {
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .modal-button.primary {
+      background: var(--accent);
+      color: #000;
+      border: none;
+    }
+    
+    .modal-button.secondary {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--muted);
+    }
+    
+    .modal-button:hover {
+      transform: translateY(-2px);
+    }
+    
+    .modal-button.primary:hover {
+      background: #ffd633;
+    }
+    
+    .modal-button.secondary:hover {
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+    }
+    
+    .cockroach-img {
+      max-width: 120px;
+      margin: 0 auto 15px;
+      display: block;
+    }
+
+    /* Responsive */
+    @media (max-width:1100px){
+      .container {
+        padding: 0 15px;
+      }
+      
+      header.site-header {
+        gap: 12px;
+      }
+      
+      .brand > div:first-child {
+        display: none;
+      }
+    }
+    
+    @media (max-width:900px){
+      .hero, .columns{ grid-template-columns: 1fr; }
+      .lead-img{ height:220px; }
+      
+      .hamburger-menu {
+        display: flex;
+      }
+      
+      nav.top-nav {
+        display: none;
+      }
+      
+      .brand > div:first-child {
+        display: block;
+      }
+    }
+    
+    @media (max-width:600px){
+      .brand > div:first-child {
+        display: none;
+      }
+      
+      .logo {
+        padding: 8px 12px;
+        font-size: 18px;
+      }
+      
+      .modal-content {
+        width: 90%;
+        padding: 20px;
+      }
+      
+      .modal-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="site-header" role="banner">
+      <div class="brand">
+        <div class="logo">Cockroach Quibbler</div>
+        <div>
+          <div style="font-weight:700">Тараканья возня вокруг сериалов</div>
+          <div class="tag">скандалы · интриги · расследования</div>
+        </div>
+      </div>
+
+      <div class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <nav class="top-nav" role="navigation" aria-label="Главная навигация">
+        <a href="#decorations">Декорации</a>
+        <a href="#menu">Меню</a>
+        <a href="#dialogues">Беседы</a>
+        <a href="#highlight">Изюминка</a>
+        <a href="#" class="cta">Подписаться</a>
+      </nav>
+    </header>
+    
+    <!-- Мобильное меню (оверлей) -->
+    <div class="mobile-menu-overlay">
+      <nav class="mobile-nav">
+        <a href="#decorations">Декорации</a>
+        <a href="#menu">Меню</a>
+        <a href="#dialogues">Беседы</a>
+        <a href="#highlight">Изюминка</a>
+        <a href="#" class="cta">Подписаться</a>
+      </nav>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="main-headline">
+      <article class="lead-card" id="main-headline">
+        <div class="lead-img" style="background-image: url('https://radika1.link/2025/08/18/20250818_0040_IZOBRAZENIE-NA-STEKLE_remix_01k2wzgfg6etmv61s53tshq2qdc1ae96724b22c21a.png');">
+          <span class="lead-eyebrow">ЭКСКЛЮЗИВ</span>
+        </div>
+
+        <h1 class="lead-title">Hogflix временно приостанавливает съемки сериала «Потерянная в песках. Путь домой»</h1>
+        <p class="lead-excerpt">
+Шокирующее заявление: стриминговый сервис Hogflix официально объявил о прекращении съемок и проката сериала «Потерянная в песках. Путь домой».
+
+После того как подписка всего за <strong>100 500 фиников</strong> не принесла ожидаемой прибыли, стало очевидно: проект не оправдал вложений. Представители Hogflix дипломатично отметили, что «пески не принесли прибыли», и уже рассматривают вариант перепродажи прав на сериал платформе <strong>Bollywood Bazaar TV+</strong>.
+        </p>
+      </article>
+
+      <aside>
+        <div class="widget">
+          <h4>Топ‑скандалы дня</h4>
+          <div class="small-list">
+            <div class="small-item">
+              <div class="small-thumb" style="background-image:url('https://radika1.link/2025/08/20/b0b89ae98af20d1ffb419e5f65c6e561030953861bf2f38f.png'); background-size:cover;"></div>
+              <div class="small-meta"><strong>Шатры с люстрами: новый тренд на восточном базаре</strong><br><span style="color:var(--muted)">1 час назад</span></div>
+            </div>
+
+            <div class="small-item">
+              <div class="small-thumb" style="background-image:url('https://radika1.link/2025/08/20/b1a149a0709611f0abfdcabf5906f820_1626ea2ed22d5f778.jpg'); background-size:cover;"></div>
+              <div class="small-meta"><strong>Дахбар Аль-Джабаль воротит нос от подарков</strong><br><span style="color:var(--muted)">3 часа назад</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="widget">
+          <h4>Сплетни и слухи</h4>
+          <ul style="margin:0;padding-left:18px;color:var(--muted);font-size:14px">
+            <li>Индийское караоке: отключаем чувство вкуса</li>
+            <li>"Нахтвайныч" ломает все правила ухода за коврами-самолетами!</li>
+            <li>Неожиданное о скарабеях: вы будете поражены!</li>
+          </ul>
+        </div>
+      </aside>
+    </section>
+
+    <!-- COLUMNS -->
+    <section class="columns">
+      <main>
+        <!-- Блок 1: Приостановка сериала -->
+        <div class="card">
+          <span class="chip">РЕАКЦИЯ ФАНАТОВ:</span>
+          <h2 class="title">Нового сезона не будет?!</h2>
+          <div class="meta">Cockroach Quibbler Newsroom · Сегодня, 14:47</div>
+          <p style="color:var(--muted)">
+			Фанаты сериала заполонили соцсети разочарованными сообщениями:
+			«Мы ждали продолжение, но все обещания утекают сквозь пальцы, как песок в пустыне!»
+          </p>
+        </div>
+
+ <!-- Блок 2: Съемочный павильон -->
+		<div class="card" id="decorations">
+		  <span class="chip yellow">ИНСАЙД</span>
+		  <h2 class="title">Эксклюзив с почти заброшенного съемочного павильона</h2>
+		  <div class="meta">Автор: Рыжий усач · Сегодня, 16:20</div>
+		  
+		  <p style="color:var(--muted)">
+			В сеть просочились кадры со съемочной площадки сериала <strong>«Потерянная в песках. Путь домой»</strong>. 
+			Источник утверждает, что снимки сделаны во время подготовки к одной из ключевых сцен — 
+			первой встречи <strong>Бэды Эйллынз</strong> с <strong>Ларой Назирой</strong>.
+		  </p>
+		  
+		  <p style="color:var(--muted)">
+			Несмотря на то, что дела у хозяйки дома — <strong>Маджиды Арваз</strong> — в сериале идут неплохо, 
+			ее жилище, по задумке авторов, должно было выглядеть скромно. И это неожиданно сыграло на руку 
+			съемочной группе: гостиная получилась удивительно атмосферной, хотя по факту ее собирали, 
+			как шутит тот же инсайдер, <strong>«из верблюжьего кизяка и палок»</strong>.
+		  </p>
+		  
+		  <!-- Контейнер для миниатюр -->
+		  <div style="display: flex; gap: 12px; margin: 18px 0; flex-wrap: wrap;">
+			<!-- Миниатюра 1 -->
+			<a href="https://radika1.link/2025/08/20/DVORIK2858e3ae4a3ac6d2.jpg" 
+			   target="_blank"
+			   style="flex: 1; min-width: 200px; text-align: center;">
+			  <img src="https://radika1.link/2025/08/20/DVORIK2858e3ae4a3ac6d2.jpg" 
+				   alt="Внутренний дворик " 
+				   style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; border: 2px solid rgba(255,204,0,0.3);">
+			  <div style="color:var(--muted); font-size:13px; margin-top:8px; font-style:italic">
+				Внутренний дворик 
+			  </div>
+			</a>
+			
+			<!-- Миниатюра 2 -->
+			<a href="https://radika1.link/2025/08/18/b4f7d9033aa72b3545bbbbfed7ab1ad0dfb37f7b95ec14c6.jpg" 
+			   target="_blank"
+			   style="flex: 1; min-width: 200px; text-align: center;">
+			  <img src="https://radika1.link/2025/08/18/b4f7d9033aa72b3545bbbbfed7ab1ad0dfb37f7b95ec14c6.jpg" 
+				   alt="Гостиная в доме Маджиды Арваз"  
+				   style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; border: 2px solid rgba(255,204,0,0.3);">
+			  <div style="color:var(--muted); font-size:13px; margin-top:8px; font-style:italic">
+				Гостиная "из кизяка и палок" 
+			  </div>
+			</a>
+		  </div>
+		  
+		  <p style="color:var(--muted); margin-top:12px">
+			<strong>На фото со съемочной площадки видно:</strong>
+		  </p>
+		  
+		  <p style="color:var(--muted)">
+			Комната небольшая, почти квадратная, с низким потолком и арочным проемом, ведущим во 
+			«внутренний двор». На полу раскинут ковер, чуть съехавший вбок, он выглядит так, 
+			будто об него постоянно спотыкается кто-то из актеров. Под окном расположился низкий диван-софа, 
+			заваленный подушками — пестрыми и явно разношерстными, словно их собирали силами всей съемочной группы. 
+			В центре стоит низкий столик, накрытый узкой скатертью с восточными узорами: если присмотреться, один угол ткани 
+			держится на прозрачном скотче, но в кадре это выглядит как дизайнерский прием и невнимательному зрителю 
+			почти незаметно.
+		  </p>
+		  
+		  <p style="color:var(--muted)">
+			По углам скромно притулились декоративные корзины с пластиковыми фруктами и кувшины — 
+			разумеется, пустые, потому что «воду для актеров слишком дорого держать прямо на площадке». 
+			На стенах и потолке висят светильники с ажурными плафонами, отбрасывающие узорчатые тени. 
+			Правда, один светильник так и остался с ценником с базара — его просто развернули к стене.
+		  </p>
+		  
+		  <p style="color:var(--muted)">
+			Атмосферу дополняют разные мелочи: пара чашек на столике (зритель никогда не узнает, 
+			что внутри вместо чая — растворимый кофе, потому что хороший чай на вес золта), 
+			а вот занавески на окне отсутствуют, они были повешены так криво, что в итоге их и вовсе решили снять, 
+			чтобы они не падали на головы актерам прямо в кадре. Все это вместе каким-то чудом складывается в цельный и уютный интерьер, 
+			где бедность выглядит как скромная элегантность.
+		  </p>
+		  
+		  <p style="color:var(--muted)">
+			Съемочная команда утверждает, что именно такие «неидеальные штрихи» и создают нужный реализм.
+		  </p>
+		  
+		  <blockquote>
+			«Это же Восток! Здесь даже роскошь должна быть слегка потрепанной», 
+			<div style="margin-top:4px; font-style:normal;">— заметил один из ассистентов по реквизиту, держа в руках скотч, молоток и банку клея ПВА.</div>
+		  </blockquote>
+
+		  <!-- Эскизы комнат -->
+		  <div style="display: flex; gap: 12px; margin: 24px 0; flex-wrap: wrap;">
+			<!-- Эскиз 1 -->
+			<a href="https://radika1.link/2025/08/19/DVORIKd8ae2ee71fcffdb9.png" 
+			   target="_blank"
+			   style="flex: 1; min-width: 200px; text-align: center;">
+			  <img src="https://radika1.link/2025/08/19/DVORIKd8ae2ee71fcffdb9.png" 
+				   alt="Эскиз внутреннего двора" 
+				   style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; border: 2px solid rgba(255,204,0,0.3);">
+			  <div style="color:var(--muted); font-size:13px; margin-top:8px; font-style:italic">
+				Эскиз внутреннего двора
+			  </div>
+			</a>
+			
+			<!-- Эскиз 2 -->
+			<a href="https://radika1.link/2025/08/19/GOSTINAY936639ae5934c5c1.png" 
+			   target="_blank"
+			   style="flex: 1; min-width: 200px; text-align: center;">
+			  <img src="https://radika1.link/2025/08/19/GOSTINAY936639ae5934c5c1.png" 
+				   alt="Эскиз гостиной" 
+				   style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; border: 2px solid rgba(255,204,0,0.3);">
+			  <div style="color:var(--muted); font-size:13px; margin-top:8px; font-style:italic">
+				Эскиз гостиной
+			  </div>
+			</a>
+		  </div>
+		  
+		  <p style="color:var(--muted); margin-top:12px">
+			<strong>Как видно из эскизов,</strong> дизайнеры изначально <s>нашли фотографии комнат и уже по ним создавали эскизы</s> планировали более детализированные интерьеры, 
+			но бюджетные ограничения заставили их упростить концепцию. Тем не менее, даже в упрощенном виде 
+			декорации сохранили восточный колорит и атмосферу.
+		  </p>
+		  
+		  <!-- Игровой элемент в конце -->
+		  <div style="background: rgba(255,204,0,0.1); border-left: 3px solid var(--accent); padding: 12px; border-radius: 0 6px 6px 0; margin-top: 16px;">
+			<div style="display: flex; align-items: center; gap: 8px;">
+			  <div style="font-size: 24px;">🔍</div>
+			  <div>
+				<strong>Внимание, конкурс!</strong> Редакция Cockroach Quibbler предлагает внимательным зрителям 
+				<span style="color: var(--accent); font-weight: 700;">увеличить фото</span> 
+				и найти в кадре тот самый светильник с ценником. Первые 5 человек, приславшие 
+				скриншот с найденным ценником, получат палетку специй "Песчаный шторм"!
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+        <!-- Блок 3: Экономия на декорациях -->
+			   <div class="card">
+		  <span class="chip green">ЭКОНОМИЯ</span>
+		  <h2 class="title">Отчаянные времена требуют отчаянных мер: режиссеры экономят на декорациях и массовке</h2>
+		  <div class="meta">Автор: Красавчик с Мадагаскара · Сегодня, 17:45</div>
+		  
+		  <p style="color:var(--muted)">
+			Чтобы сократить расходы, съемочная группа решила <strong>не строить павильон</strong>, 
+			а снимать сцены закупок <strong>Бэды</strong> перед встречей с госпожой <strong>Назирой</strong> 
+			прямо на настоящем восточном базаре.
+		  </p>
+		  
+		  <div style="margin:16px 0; padding:12px; background:rgba(255,204,0,0.05); border-radius:8px; border-left:3px solid var(--accent);">
+			<p style="color:var(--muted); margin:0">
+			  <span style="font-weight:bold; color:var(--accent)">Скандальный факт:</span> 
+			  Актриса торговалась с купцами до хрипоты, пока режиссер в сторонке пересчитывал последние монеты!
+			</p>
+		  </div>
+		  
+		  <p style="color:var(--muted)">
+			Один из блогеров позже <strong>язвительно отметил</strong> в соцсетях:
+		  </p>
+		  
+		  <blockquote>
+			«Говорят, что сцена на базаре в восьмой серии выглядела очень естественно… Но так это все потому, что это и было естественно!»
+			<div style="margin-top:4px; font-style:normal;">— Анонимный кинообозреватель</div>
+		  </blockquote>
+		  
+		  <p style="color:var(--muted)">
+			<strong>Неожиданный эффект экономии:</strong> торговцы рынка теперь официально значатся 
+			<span style="color:var(--accent); font-weight:bold">приглашенными звездами</span> сериала! 
+			Более того, сама актриса получила выгодное предложение и стала счастливой владелицей 
+			<strong>огромного шатра</strong>, под которым помещается не только она сама, но и целый верблюд
+			<strong>с шикарной шевелюрой</strong>.
+		  </p>
+		  
+		  <div style="display:flex; align-items:center; gap:10px; margin:16px 0; padding:12px; background:rgba(76,217,100,0.08); border-radius:8px;">
+			<div style="font-size:32px">🎬</div>
+			<div>
+			  <p style="color:var(--muted); margin:0">
+				<strong>Как итог:</strong> зрители получили максимальный реализм, 
+				а съемочная группа — минимальные расходы. 
+				<span style="font-weight:bold; color:var(--accent)">Кто сказал, что киноделы не умеет считать деньги?</span>
+			  </p>
+			</div>
+		  </div>
+		</div>
+
+        <!-- Блок 4: Гости готовят сами -->
+		<div class="card" id="highlight">
+		  <span class="chip red">СКАНДАЛ</span>
+		  <h2 class="title">Очередное клише или изюминка вечера?</h2>
+		  <div class="meta">Автор: Таракан_с_твоей_кухни · Сегодня, 18:30</div>
+		  
+		  <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px; padding:12px; background:rgba(255,59,48,0.08); border-radius:8px;">
+			<div style="font-size:32px">🌪️</div>
+			<div>
+			  <p style="color:var(--muted); margin:0">
+				<strong>Тройной удар по съемкам:</strong> горящие сроки + песчаная буря + внезапные съемки на базаре = 
+				<span style="color:var(--danger); font-weight:bold"> на праздничный стол, за которым по сценарию должены были встречать важную гостью, просто… не хватило персонала и времени.</span>
+			  </p>
+			</div>
+		  </div>
+		  
+		  <p style="color:var(--muted)">
+			В отчаянной попытке спасти ситуацию, режиссеры приняли очередное <strong>«гениальное» решение</strong>: 
+			превратить катастрофу в новый сюжетный поворот!
+		  </p>
+		  
+		  <p style="color:var(--muted)">
+			<strong>Так родился дополнительный эпизод сезона:</strong> 
+			Хозяйка вечера не просто встречает свою гостью — она <span style="color:var(--accent); font-weight:bold">буквально заманивает ее на кухню!</span>
+			Вместо ароматного чая с изысканного кюнефе в гостиной(хотя чуть позже они туда все-таки попали), неловких пауз в беседе и показной сервировки — 
+			зрители получили камерное кулинарное шоу, где главная героиня попыталась <strong>по-настоящему сблизиться</strong> с госпожой Назирой.
+		  </p>
+		  
+		  <p style="color:var(--muted); margin-top:16px">
+			<strong>Магия зачарованного тажина:</strong> По задумке сценаристов, Бэда вместе с Ларой Назирой готовила свои фирменные десерты в зачарованном тажине, попутно демонстрируя гостье тайную магию пряностей. Так, нежная пахлава пробуждала воспоминания о доме, тянущееся кюнефе дарило вдохновение, легкий как облако гюллач возвращал трепет первой влюбленности, а сочная и сладкая ревани — простую радость и смех детства.
+		  </p>
+		  
+		  <div style="margin:16px 0; padding:12px; background:rgba(255,204,0,0.05); border-radius:8px; border-left:3px solid var(--accent);">
+			<p style="color:var(--muted); margin:0">
+			  <span style="font-weight:bold; color:var(--accent)">Спонсор сериала бытовая техника для кухни "Mavi Ev":</span> 
+			  Каждый десерт не просто готовился, а <strong>«зачаровывался»</strong> в тажине — специальной посуде, 
+			  где, по легенде сериала, магия специй раскрывалась особенно ярко!
+			</p>
+		  </div>
+		  
+		  <p style="color:var(--muted)">
+			<strong>Реакция зрителей:</strong> разделилась на два враждующих лагеря! Одни кричат о 
+			<span style="color:var(--danger); font-weight:bold">банальном клише и реклама</span>, другие видят в этом 
+			<span style="color:var(--accent); font-weight:bold">гениальную изюминку</span>. 
+			Но равнодушным не остался никто — соцсети взорвались спорами!
+		  </p>
+		  
+		  <div style="background:rgba(255,59,48,0.1); padding:12px; border-radius:8px; margin:16px 0; border-left:3px solid var(--danger);">
+			<p style="color:var(--muted); margin:0">
+			  <span style="font-weight:bold; color:var(--danger)">Признание режиссера:</span> 
+			  «Мы просто не успели накрыть стол, а теперь фанаты уверены, что это лучшее решение сезона».
+			</p>
+		  </div>
+		  
+		  <div style="display:flex; align-items:center; gap:10px; margin-top:20px; padding:12px; background:linear-gradient(90deg, rgba(255,204,0,0.1), transparent); border-radius:8px;">
+			<div style="font-size:24px">🍯</div>
+			<div>
+			  <p style="color:var(--muted); margin:0">
+				<strong>Думаете, это провал? Не спешите! <a href="https://example.com/recipe" target="_blank" class="recipe-link">Опробуйте Волшебный тажин Бэды Эйллынз</a> от компании "Mavi Ev" сами.</strong> 
+				Напишите, какое блюдо у вас получилось и решите — это клише или гениальный ход!
+			  </p>
+			</div>
+		  </div>
+		</div>
+
+        <!-- Блок 5: Галерея блюд -->
+<div class="card" id="menu">
+  <h3 class="title">Меню вечера: </h3>
+  <div class="meta">Каждый десерт, приготовленный по классическому рецепту, пробуждает особые чувства</div>
+  
+  <div class="gallery-grid" id="dessertGrid" style="margin-top:15px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));">
+    <!-- Все десерты (первые 6 видимые, остальные скрыты) -->
+    <div class="dessert-card">
+      <div style="height:100px; display:flex; align-items:center; justify-content:center; background:#222; border-radius:6px 6px 0 0;">
+        <img src="https://radika1.link/2025/08/19/Baklava0c35f9992653d3a1.png" 
+             alt="Баклава" 
+             style="max-width:100%; max-height:100px; object-fit:contain;">
+      </div>
+      <div style="padding:8px">
+        <div style="font-weight:bold; color:#fff; font-size:14px">БАКЛАВА</div>
+        <div style="color:var(--muted); font-size:12px">Пробуждает детскую радость</div>
+      </div>
+    </div>
+    
+    <div class="dessert-card">
+      <div style="height:100px; display:flex; align-items:center; justify-content:center; background:#222; border-radius:6px 6px 0 0;">
+        <img src="https://radika1.link/2025/08/19/Kunefe0f7f0bc4ad8eaa35.png" 
+             alt="Кюнефе" 
+             style="max-width:100%; max-height:100px; object-fit:contain;">
+      </div>
+      <div style="padding:8px">
+        <div style="font-weight:bold; color:#fff; font-size:14px">КЮНЕФЕ</div>
+        <div style="color:var(--muted); font-size:12px">Дарит творческое вдохновение</div>
+      </div>
+    </div>
+    
+    <div class="dessert-card">
+      <div style="height:100px; display:flex; align-items:center; justify-content:center; background:#222; border-radius:6px 6px 0 0;">
+        <img src="https://radika1.link/2025/08/19/Gullac0175a6e6b5cda77d.png" 
+             alt="Гюллач" 
+             style="max-width:100%; max-height:100px; object-fit:contain;">
+      </div>
+      <div style="padding:8px">
+        <div style="font-weight:bold; color:#fff; font-size:14px">ГЮЛЛАЧ</div>
+        <div style="color:var(--muted); font-size:12px">Возвращает трепет первой любви</div>
+      </div>
+    </div>
+    
+    <div class="dessert-card">
+      <div style="height:100px; display:flex; align-items:center; justify-content:center; background:#222; border-radius:6px 6px 0 0;">
+        <img src="https://radika1.link/2025/08/19/Revaniea8bbee766b1e4c0.png" 
+             alt="Ревани" 
+             style="max-width:100%; max-height:100px; object-fit:contain;">
+      </div>
+      <div style="padding:8px">
+        <div style="font-weight:bold; color:#fff; font-size:14px">РЕВАНИ</div>
+        <div style="color:var(--muted); font-size:12px">Дарит беззаботность и смех детства</div>
+      </div>
+    </div>
+    
+    <div class="dessert-card">
+      <div style="height:100px; display:flex; align-items:center; justify-content:center; background:#222; border-radius:6px 6px 0 0;">
+        <img src="https://radika1.link/2025/08/19/Sutlace50beb87cff02ffe.png" 
+             alt="Сутлач" 
+             style="max-width:100%; max-height:100px; object-fit:contain;">
+      </div>
+      <div style="padding:8px">
+        <div style="font-weight:bold; color:#fff; font-size:14px">СУТЛАЧ</div>
+        <div style="color:var(--muted); font-size:12px">Успокаивает душу</div>
+      </div>
+    </div>
+    
+    <div class="dessert-card">
+      <div style="height:100px; display:flex; align-items:center; justify-content:center; background:#222; border-radius:6px 6px 0 0;">
+        <img src="https://radika1.link/2025/08/19/Asuredaaefd3302be61c9.png" 
+             alt="Ашуре" 
+             style="max-width:100%; max-height:100px; object-fit:contain;">
+      </div>
+      <div style="padding:8px">
+        <div style="font-weight:bold; color:#fff; font-size:14px">АШУРЕ</div>
+        <div style="color:var(--muted); font-size:12px">Укрепляет семейные узы</div>
+      </div>
+    </div>
+    
+    <!-- Скрытые десерты -->
+    <div class="dessert-card hidden-dessert">
+      <div style="height:100px; display:flex; align-items:center; justify-content:center; background:#222; border-radius:6px 6px 0 0;">
+        <img src="https://radika1.link/2025/08/19/Kazandibife13359f3e541af2.png" 
+             alt="Казандиби" 
+             style="max-width:100%; max-height:100px; object-fit:contain;">
+      </div>
+      <div style="padding:8px">
+        <div style="font-weight:bold; color:#fff; font-size:14px">КАЗАНДИБИ</div>
+        <div style="color:var(--muted); font-size:12px">Пробуждает ностальгию</div>
+      </div>
+    </div>
+    
+    <div class="dessert-card hidden-dessert">
+      <div style="height:100px; display:flex; align-items:center; justify-content:center; background:#222; border-radius:6px 6px 0 0;">
+        <img src="https://radika1.link/2025/08/19/Sekerpare59dba3ab1784d196.png" 
+             alt="Шекерпаре" 
+             style="max-width:100%; max-height:100px; object-fit:contain;">
+      </div>
+      <div style="padding:8px">
+        <div style="font-weight:bold; color:#fff; font-size:14px">ШЕКЕРПАРЕ</div>
+        <div style="color:var(--muted); font-size:12px">Заряжает энергией</div>
+      </div>
+    </div>
+    
+    <div class="dessert-card hidden-dessert">
+      <div style="height:100px; display:flex; align-items:center; justify-content:center; background:#222; border-radius:6px 6px 0 0;">
+        <img src="https://radika1.link/2025/08/19/Ayva-Tatlisif9dc5c9f6c319a55.png" 
+             alt="Айва татлысы" 
+             style="max-width:100%; max-height:100px; object-fit:contain;">
+      </div>
+      <div style="padding:8px">
+        <div style="font-weight:bold; color:#fff; font-size:14px">АЙВА ТАТЛЫСЫ</div>
+        <div style="color:var(--muted); font-size:12px">Согревает сердце</div>
+      </div>
+    </div>
+    
+    <div class="dessert-card hidden-dessert">
+      <div style="height:100px; display:flex; align-items:center; justify-content:center; background:#222; border-radius:6px 6px 0 0;">
+        <img src="https://radika1.link/2025/08/19/Cezerye052e2e8c87d9df6f.png" 
+             alt="Джезерье" 
+             style="max-width:100%; max-height:100px; object-fit:contain;">
+      </div>
+      <div style="padding:8px">
+        <div style="font-weight:bold; color:#fff; font-size:14px">ДЖЕЗЕРЬЕ</div>
+        <div style="color:var(--muted); font-size:12px">Дарит жизненные силы</div>
+      </div>
+    </div>
+  </div>
+  
+  <center style="margin-top:20px">
+    <button id="toggleMenuBtn" class="cta" 
+            style="background:transparent; border:2px solid var(--accent); color:var(--accent); padding:8px 16px">
+      Показать все десерты
+    </button>
+  </center>
+</div>
+
+<style>
+  .dessert-card {
+    background: var(--card);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .hidden-dessert {
+    display: none;
+  }
+</style>
+
+<script>
+  document.getElementById('toggleMenuBtn').addEventListener('click', function() {
+    const hidden = document.querySelectorAll('.hidden-dessert');
+    const isExpanded = this.getAttribute('data-expanded') === 'true';
+    
+    if (isExpanded) {
+      // Сворачиваем
+      hidden.forEach(el => el.style.display = 'none');
+      this.innerHTML = 'Показать все десерты';
+      this.style.background = 'transparent';
+      this.style.color = 'var(--accent)';
+      this.setAttribute('data-expanded', 'false');
+    } else {
+      // Раскрываем
+      hidden.forEach(el => el.style.display = 'block');
+      this.innerHTML = 'Свернуть меню';
+      this.style.background = 'var(--accent)';
+      this.style.color = '#000';
+      this.setAttribute('data-expanded', 'true');
+    }
+  });
+</script>
+        <!-- Блок 6: Диалоги на коленке -->
+      <div class="card" id="dialogues">
+  <span class="chip" style="background:rgba(41,128,185,0.12); color:#2980b9;">РАЗБОР ДИАЛОГОВ</span>
+  <h2 class="title">ЭКСКЛЮЗИВ: Как создавались самые абсурдные диалоги сезона в «Потерянной в пустыне»</h2>
+  <div class="meta">Автор: Тарканище · Сегодня, 19:15</div>
+  
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px; padding:12px; background:rgba(41,128,185,0.08); border-radius:8px;">
+    <div style="font-size:32px">📝</div>
+    <div>
+      <p style="color:var(--muted); margin:0">
+        <span style="color:#2980b9; font-weight:bold">Продюсер жмет кошель, а у сценариста сохнет перо!</span>
+      </p>
+    </div>
+  </div>
+  
+  <h3 style="color:#fff; margin:20px 0 12px 0; font-family:'Playfair Display', serif;">Паузы длиннее каравана верблюдов</h3>
+  
+  <p style="color:var(--muted)">
+    ШОК: диалоги одной из финальных серий "Потерянной в пустыне" состряпаны буквально за ночь! 
+    Чем аукнулась спешка? Паузы длиннее каравана!
+  </p>
+  
+  <p style="color:var(--muted)">
+    Вот уж воистину: классические для восточных сериалов паузы в диалогах между героями достигли в финальных сериях 
+    «Потерянной в Пустыне» масштабов пустыни Сахары! Зрители, по словам фокус группы, успевали не просто сварить кофе, 
+    а слетать в Стамбул за свежим рахат-лукумом, вернуться к экрану и… обнаружить, что герои все еще молчаливо изучают 
+    пылинки на ковре, словно терпеливо ожидая их возвращения!
+  </p>
+  
+  <blockquote style="border-left-color:#2980b9;">
+    «Закадровые стоны режиссера: "Да скажите уже что-нибудь!" — были слышны даже в соседнем павильоне.»
+    <div style="margin-top:4px; font-style:normal;">— Ассистент режиссера, пожелавший остаться анонимным</div>
+  </blockquote>
+  
+  <h3 style="color:#fff; margin:20px 0 12px 0; font-family:'Playfair Display', serif;">Диалоги из параллельных вселенных</h3>
+  
+  <p style="color:var(--muted)">
+    А уж про взаимопонимание между персонажами и говорить нечего! Сцена между великолепной Ларой Назирой и Бэдой Эйллынз 
+	буквально, БУКВАЛЬНО переполнена кричащим непониманием. Настоящая классика жанра: слова вроде бы звучат, 
+    адресованы друг другу, но создается стойкое ощущение, что герои ведут параллельные монологи в разных вселенных! 
+  </p>
+  
+  <div style="margin:16px 0; padding:12px; background:rgba(41,128,185,0.05); border-radius:8px; border-left:3px solid #2980b9;">
+    <p style="color:var(--muted); margin:0">
+      <span style="font-weight:bold; color:#2980b9">Вердикт критиков:</span> 
+      Экономия на сценаристах привела к тому, что персонажи разучились не только понимать, но и слышать друг друга.
+    </p>
+  </div>
+  
+  <h3 style="color:#fff; margin:20px 0 12px 0; font-family:'Playfair Display', serif;">Испытание для юной актрисы</h3>
+  
+  <p style="color:var(--muted)">
+    На фоне этих эпических пауз особенно трогательно выглядело волнение юной актрисы, исполняющей роль Бэды. 
+    Ведь ей предстояло ключевое испытание: убедить влиятельную Лару Назиру, что она, простая девушка из глубинки, 
+    достойна стать музой великого поэта!
+  </p>
+  
+  <h3 style="color:#fff; margin:20px 0 12px 0; font-family:'Playfair Display', serif;">Восточная рулетка тем</h3>
+  
+  <p style="color:var(--muted)">
+    Тема для разговора? А вот тут сценаристы, видимо, решили сыграть в «рулетку». Темы менялись с такой 
+    головокружительной скоростью и абсурдностью, что даже самый закаленные почитатели турецких сериалов хватались за голову! Началось все неожиданно… с верблюдов! 
+    Да-да, вы не ослышались!
+  </p>
+  
+  <p style="color:var(--muted)">
+    Бэда Эйллынз, чья жизнь до встречи с Ларой была посвящена уходу за больными и измученными «кораблями пустыни» и которая, 
+    как известно телезрителям сериала, имела с ними почти мистическую связь, вдруг разразилась восторженными комплиментами в адрес… верблюда Лары Назиры!
+	Впрочем, достаточно быстро смутившись своего выпада, она постаралась сменить тему и начала просто заваливать свою гостью вопросами личного характера. Однако, тут ей повезло, ведь госпожа Назира любила поговорить о своей сиятельной персоне.
+  </p>
+  
+  <div style="background:rgba(41,128,185,0.1); padding:12px; border-radius:8px; margin:16px 0;">
+    <p style="color:var(--muted); margin:0">
+      <strong>Цитата:</strong> 
+      <span style="font-style:italic">«А… а какой ваш самый любимый десерт, госпожа Назира? Какой изысканный у вас вкус! А расскажите о своем детстве? Правда ли что вы лучше всех играете на кануне во всем Измире? Самое сладкое воспоминание?»</span>
+      <div style="margin-top:4px;">— Бэда нервно пытается вести светскую беседу после обсуждения верблюдов</div>
+    </p>
+  </div>
+  
+  <p style="color:var(--muted)">
+    Впрочем, по мере получения ответов, глааза Бэды начинают хитро блестеть — она явно замышляет приготовить этот десерт с «особыми» специями, дарующими все 33 удовольствия, 
+    дабы расположить неподкупную и наверное, ничего не подозревающую Лару Назиру к себе.
+  </p>
+  
+  <p style="color:var(--muted)">
+И как вишенка на этом торте — поэзия! Хорошая тема для разговора, скажете вы, и будете абсолютно правы. Но был один нюанс: разговоры о поэзии снова вернули Эйллынз к теме её любимых верблюдов. Бэда аккуратно начала рассказывать о том, как впервые в жизни увидела Джалаладдина ибн-ла-Сираба — невероятного поэта, чьи поэмы подобны мёду, собранному с первых майских цветов. Она признавалась, что строки его стихов пленили её так же сильно, как бескрайние пески пустыни пленяют взгляд путника. Да только встретила она его на фестивале верблюдов в Сельчуке. В то время как гости любовались животными, чья шерсть была выстрижена в сложные и удивительной красоты узоры, поэт читал лучшие из своих творений, придавая празднику особую атмосферу. </p>
+  
+  <div style="margin:16px 0; padding:12px; background:rgba(41,128,185,0.05); border-radius:8px;">
+    <p style="color:var(--muted); margin:0; text-align:center">
+      <strong>Вот так, дорогие зрители, и ведутся беседы, когда диалоги пишутся «на коленке».</strong>
+    </p>
+  </div>
+</div>
+
+<!-- Новый блок с призывом -->
+<div class="card" style="background: linear-gradient(135deg, rgba(255,204,0,0.1), rgba(41,128,185,0.1)); border: 2px solid var(--accent);">
+  <div style="text-align: center; padding: 20px;">
+    <h2 style="color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 16px;">
+      Все еще надеетесь на продолжение «Потерянной в пустыне»?
+    </h2>
+    <p style="color: var(--muted); margin-bottom: 20px;">
+      Поддержите проект — вернитесь на Hogflix и купите подписку!<br>
+      Только так мы сможем увидеть второй сезон и узнать, чем закончится эта невероятная история!
+    </p>
+<a href="https://mhd25-hogflix.github.io" class="cta subscribe-link" style="display: inline-block; background: var(--accent); color: #000; 
+  padding: 12px 24px; border-radius: 6px; font-weight: bold; font-size: 16px;">
+  Вернуться на Hogflix и купить подписку
+</a>
+    <div style="margin-top: 12px; color: var(--muted); font-size: 13px;">
+      Всего 100 500 фиников в месяц — дешевле, чем кофе в Стамбуле!
+    </div>
+  </div>
+</div>
+      </main>
+
+      <aside class="sidebar">
+        <div class="sticky">
+          <div class="widget tele-widget">
+            <h4>Из первых рук:</h4>
+            <div class="telegram-mock">
+              <strong>@cockroach_leaks</strong><br>
+              «Продюсеры "Потерянной в песках" в поисках новых инвесторов!»
+            </div>
+          </div>
+
+          <div class="widget">
+            <h4>Популярное</h4>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <a class="card" style="padding:8px;">
+                <div style="font-weight:700">Забота о фанатах: "я сгребу всю кринжовую музыку мира!" (с) Яхья Фатхи</div>
+                <div class="meta">5 234 комментария</div>
+              </a>
+              <a class="card" style="padding:8px;">
+                <div style="font-weight:700">Происки фортуны: вся правда о битве в кофейне от Уильяма Роланда</div>
+                <div class="meta">2 910 комментариев</div>
+              </a>
+              <a class="card" style="padding:8px;">
+                <div style="font-weight:700">Танцы с коровами: шокирующие кадры с Кевином Хоукинсом</div>
+                <div class="meta">8 765 комментариев</div>
+              </a>
+            </div>
+          </div>
+
+          <div class="ad widget">
+            Купи палетку специй «Песчаный шторм» — магия пряностей на твоей кухне!
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <footer>
+      Cockroach Quibbler © 2025
+    </footer>
+  </div>
+
+  <!-- Модальное окно предупреждения -->
+  <div id="newsWarningModal" class="modal">
+    <div class="modal-content">
+      <h3>Ай-яй-яй!</h3>
+      <img src="https://radika1.link/2025/08/20/SPAM83db9f0aea0772aa.png" alt="Warning" class="cockroach-img">
+      <p>серьезно, хватит переходить по таким ссылкам</p>
+      <button class="modal-button secondary close-modal">Закрыть</button>
+    </div>
+  </div>
+
+  <!-- Модальное окно подписки -->
+  <div id="subscribeModal" class="modal">
+    <div class="modal-content">
+      <h3>Подписка на Cockroach Quibbler</h3>
+      <p>Всего 15 фиников в месяц, чтобы узнавать все горячие новости первым!</p>
+      <div class="modal-buttons">
+        <a href="https://dhog.org/viewtopic.php?p=151782#p151782" target="_blank" class="modal-button primary">Оплатить</a>
+        <button class="modal-button secondary close-subscribe-modal">Отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      // Пример: замена заголовка при двойном клике
+      document.querySelector('.lead-title')?.addEventListener('dblclick', function(){
+        const next = prompt('Новый заголовок (дважды откроется для быстрого теста):', this.textContent.trim());
+        if(next) this.textContent = next;
+      });
+      
+      // Гамбургер меню
+      const hamburger = document.querySelector('.hamburger-menu');
+      const mobileMenu = document.querySelector('.mobile-menu-overlay');
+      
+      if (hamburger && mobileMenu) {
+        hamburger.addEventListener('click', function() {
+          this.classList.toggle('active');
+          mobileMenu.classList.toggle('active');
+        });
+        
+        // Закрытие меню при клике на ссылку
+        const mobileLinks = document.querySelectorAll('.mobile-nav a');
+        mobileLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+          });
+        });
+        
+        // Закрытие меню при клике вне его области
+        mobileMenu.addEventListener('click', (e) => {
+          if (e.target === mobileMenu) {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+          }
+        });
+      }
+
+      // Функция для показа предупреждения
+      function showNewsWarning() {
+        const modal = document.getElementById('newsWarningModal');
+        if (modal) {
+          modal.style.display = 'flex';
+        }
+      }
+
+      // Функция для показа модального окна подписки
+      function showSubscribeModal() {
+        const modal = document.getElementById('subscribeModal');
+        if (modal) {
+          modal.style.display = 'flex';
+        }
+      }
+
+      // Обработчики для кнопок подписки
+      document.querySelectorAll('a.cta:not(.subscribe-link)').forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.preventDefault();
+          showSubscribeModal();
+        });
+      });
+
+
+
+      // Обработчики для закрытия модальных окон
+      document.querySelectorAll('.close-modal').forEach(button => {
+        button.addEventListener('click', function() {
+          document.getElementById('newsWarningModal').style.display = 'none';
+        });
+      });
+
+      document.querySelectorAll('.close-subscribe-modal').forEach(button => {
+        button.addEventListener('click', function() {
+          document.getElementById('subscribeModal').style.display = 'none';
+        });
+      });
+
+      // Закрытие модальных окон при клике вне их области
+      document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.style.display = 'none';
+          }
+        });
+      });
+
+      // Обработчики для блоков новостей
+      const newsHeadings = Array.from(document.querySelectorAll('h4'));
+      const targetHeadings = newsHeadings.filter(heading => {
+        return ['Топ‑скандалы дня', 'Подписка на утечки', 'Популярное'].includes(heading.textContent);
+      });
+
+      targetHeadings.forEach(heading => {
+        heading.style.cursor = 'pointer';
+        heading.addEventListener('click', function(e) {
+          e.preventDefault();
+          showNewsWarning();
+        });
+      });
+
+      // Обработчики для кликабельных элементов в виджетах
+      document.querySelectorAll('.small-item, .telegram-mock, .widget .card').forEach(element => {
+        element.style.cursor = 'pointer';
+        element.addEventListener('click', function(e) {
+          e.preventDefault();
+          showNewsWarning();
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
