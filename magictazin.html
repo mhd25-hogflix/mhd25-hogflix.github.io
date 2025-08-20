@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Волшебный тажин</title>
+	    <link rel="icon" type="image/x-icon" href="favicon2.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background: #451c37;
+            min-height: 100vh;
+            padding: 20px;
+            color: #f0f0f0;
+            font-family: "Alumni Sans Pinstripe", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            background-image: url('https://radika1.link/2025/08/20/bg-pattern2b1f9e6a8d3c745e.png');
+            background-size: 300px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 100%;
+        }
+        
+        .header-image {
+            max-width: 90%;
+            height: auto;
+            max-height: 130px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .game-area {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            width: 100%;
+            gap: 15px;
+        }
+        
+        .ingredients-section {
+            flex: 1;
+            min-width: 280px;
+            background: rgba(220, 167, 100, 0.9);
+            border: 3px solid #dca764;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+            color: #451c37;
+            font-weight: bold;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #b88a4a;
+        }
+        
+        .ingredients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .ingredient {
+            background: #dca764;
+            border: 2px solid #b88a4a;
+            border-radius: 8px;
+            padding: 8px 4px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            color: #451c37;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s;
+            user-select: none;
+            font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+            line-height: 1.2;
+        }
+        
+        .ingredient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+            background: #e5b97a;
+        }
+        
+        .ingredient.spice {
+            background: #c19a6b;
+            border-color: #a57c4f;
+            font-style: italic;
+        }
+        
+        .ingredient.main-ingredient {
+            background: #e5b97a;
+            border: 2px solid #9d7a4d;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ingredient.main-ingredient::after {
+            content: "★";
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            font-size: 0.7rem;
+            color: #9d7a4d;
+        }
+        
+        .ingredient.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .ingredient-emoji {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+        
+        .cauldron-section {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .cauldron-area {
+            position: relative;
+            width: 300px;
+            height: 350px;
+            margin-bottom: 10px;
+        }
+        
+        .tajine {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .tajine-top {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+            z-index: 3;
+            transition: top 1s ease-in-out;
+        }
+        
+        .tajine-top.cooking {
+            top: 40px;
+        }
+        
+        .tajine-bottom {
+            position: absolute;
+            top: 130px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 260px;
+            z-index: 2;
+        }
+        
+        .liquid {
+            position: absolute;
+            top: 160px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 170px;
+            height: 70px;
+            background: linear-gradient(to bottom, #5a2a47, #451c37);
+            border-radius: 50% 50% 30% 30%/60% 60% 40% 40%;
+            z-index: 1;
+            transition: all 0.5s;
+        }
+        
+        .bubbles {
+            position: absolute;
+            top: 145px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 210px;
+            height: 70px;
+            z-index: 4;
+            overflow: hidden;
+            border-radius:  10%  20%  10% 30% 10% 30% 30%/60% 60% 40% 40% 10%  20%  10% ;
+        }
+        
+        .bubble {
+            position: absolute;
+            bottom: 0;
+            background: rgba(220, 167, 100, 0.6);
+            border-radius: 50%;
+            animation: bubble-rise 54s infinite ease-in;
+        }
+        
+        @keyframes bubble-rise {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        .smoke {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 180px;
+            z-index: 5;
+            opacity: 0;
+        }
+        
+        .smoke.visible {
+            opacity: 1;
+        }
+        
+        .smoke-particle {
+            position: absolute;
+            bottom: 0;
+            background: rgba(220, 167, 100, 0.7);
+            border-radius: 50%;
+            animation: smoke-rise 6s infinite ease-out;
+        }
+        
+        @keyframes smoke-rise {
+            0% {
+                transform: translateY(0) scale(0.8);
+                opacity: 0.8;
+                filter: blur(5px);
+            }
+            70% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-200px) scale(2);
+                opacity: 0;
+                filter: blur(10px);
+            }
+        }
+        
+        .dropped-ingredients {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            z-index: 6;
+            pointer-events: none;
+        }
+        
+        .dropped-ingredient {
+            position: absolute;
+            font-size: 1.8rem;
+            animation: fall-down 2s ease-in forwards;
+            z-index: 7;
+        }
+        
+        @keyframes fall-down {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            80% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(150px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .cook-btn {
+            background: #dca764;
+            color: #451c37;
+            border: 3px solid #b88a4a;
+            padding: 12px 35px;
+            font-size: 1.4rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            font-weight: bold;
+            font-family: "Alumni Sans Pinstripe", sans-serif;
+            min-width: 180px;
+        }
+        
+        .cook-btn:hover {
+            background: #e5b97a;
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+        
+        .cook-btn:disabled {
+            background: #9d7a4d;
+            color: #6a4a2c;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .result-section {
+            flex: 1;
+            min-width: 280px;
+            background: rgba(220, 167, 100, 0.9);
+            border: 3px solid #dca764;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .result-title {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            color: #451c37;
+            font-weight: bold;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #b88a4a;
+        }
+        
+        .recipe-result {
+            text-align: center;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .dessert-image {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+        
+        .recipe-name-image {
+            width: 180px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        
+        .recipe-description {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #5a2a47;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
+        .recipe-special {
+            font-size: 1.2rem;
+            color: #2a0d1c;
+            font-weight: bold;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 8px;
+            border-left: 4px solid #9d7a4d;
+        }
+        
+        .recipe-ingredients {
+            font-size: 1.1rem;
+            margin-top: 12px;
+            color: #451c37;
+            font-weight: bold;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+        }
+        
+        .ingredient-highlight {
+            font-weight: bold;
+            color: #2a0d1c;
+            background: rgba(220, 167, 100, 0.5);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .reset-btn {
+            background: #451c37;
+            color: #dca764;
+            border: 2px solid #5a2a47;
+            padding: 8px 25px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            font-family: "Alumni Sans Pinstripe", sans-serif;
+            font-weight: bold;
+        }
+        
+        .reset-btn:hover {
+            background: #5a2a47;
+            transform: scale(1.05);
+        }
+        
+        .instructions {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 1.1rem;
+            background: rgba(220, 167, 100, 0.9);
+            border: 3px solid #dca764;
+            padding: 15px;
+            border-radius: 12px;
+            max-width: 750px;
+            color: #451c37;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .instructions img {
+            height: 80px;
+            vertical-align: middle;
+            margin: 0 10px;
+        }
+        
+        .selected-ingredients {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(177, 88, 44, 0.3);
+            border-radius: 8px;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .selected-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #dca764;
+            font-size: 1.2rem;
+        }
+        
+        .selected-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            justify-content: center;
+        }
+        
+        .selected-item {
+            background: rgba(220, 167, 100, 0.8);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: #451c37;
+        }
+        
+        .selected-item.spice {
+            background: rgba(193, 154, 107, 0.8);
+            font-style: italic;
+        }
+        
+        .selected-item.main-ingredient {
+            background: rgba(229, 185, 122, 0.9);
+            border: 1px solid #9d7a4d;
+            font-weight: bold;
+        }
+        
+        .selected-item.main-ingredient::before {
+            content: "★ ";
+            font-size: 0.8rem;
+        }
+        
+        .ingredients-group {
+            margin-bottom: 15px;
+        }
+        
+        .group-title {
+            font-size: 1.1rem;
+            color: #5a2a47;
+            margin-bottom: 8px;
+            padding-left: 5px;
+            border-left: 3px solid #b88a4a;
+            font-weight: bold;
+        }
+        
+        .warning-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .warning-content {
+            background-color: #dca764;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 450px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            border: 3px solid #b88a4a;
+        }
+        
+        .warning-content h3 {
+            color: #451c37;
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+        
+        .warning-content p {
+            color: #451c37;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .warning-btn {
+            background: #451c37;
+            color: #dca764;
+            border: 2px solid #5a2a47;
+            padding: 10px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            font-family: "Alumni Sans Pinstripe", sans-serif;
+            font-weight: bold;
+        }
+        
+        .warning-btn:hover {
+            background: #5a2a47;
+            transform: scale(1.05);
+        }
+        
+        .flying-emoji {
+            position: fixed;
+            font-size: 1.8rem;
+            z-index: 100;
+            pointer-events: none;
+            animation: flyToCauldron 1s forwards;
+        }
+        
+        @keyframes flyToCauldron {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0.5);
+                opacity: 0;
+            }
+        }
+        
+        /* Убираем глобальную кнопку сброса */
+        .global-reset-btn {
+            display: none;
+        }
+        
+        /* НОВЫЕ СТИЛИ ДЛЯ ИСПРАВЛЕНИЙ */
+        
+        /* Исправление позиционирования логотипа в инструкциях */
+        .instructions-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .instructions-text {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+        
+        /* Контейнер для кнопок в секции с котлом */
+        .buttons-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        /* Стиль для кнопки сброса в секции с котлом - теперь как у cook-btn */
+        .section-reset-btn {
+            background: #dca764;
+            color: #451c37;
+            border: 3px solid #b88a4a;
+            padding: 12px 35px;
+            font-size: 1.4rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            font-weight: bold;
+            font-family: "Alumni Sans Pinstripe", sans-serif;
+            min-width: 180px;
+        }
+        
+        .section-reset-btn:hover {
+            background: #e5b97a;
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .game-area {
+                flex-direction: column;
+            }
+            
+            .cauldron-area {
+                margin: 15px 0;
+            }
+            
+            .header-image {
+                max-width: 100%;
+                max-height: 100px;
+            }
+            
+            .ingredients-grid {
+                grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+            }
+            
+            .instructions {
+                flex-direction: column;
+            }
+            
+            .instructions img {
+                margin: 10px 0;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="https://radika1.link/2025/08/16/zagolovok6a3dea678bfd732f.png" 
+                 alt="Волшебный тажин" class="header-image">
+        </header>
+        
+        <div class="game-area">
+            <div class="ingredients-section">
+                <h3 class="section-title">Ингредиенты для десертов:</h3>
+                
+                <div class="ingredients-group">
+                    <div class="group-title">Главные ингредиенты</div>
+                    <div class="ingredients-grid" id="main-ingredients-primary">
+                        <div class="ingredient main-ingredient" data-name="Фило" data-emoji="🥮">Фило</div>
+                        <div class="ingredient main-ingredient" data-name="Кадаиф" data-emoji="🧵">Кадаиф</div>
+                        <div class="ingredient main-ingredient" data-name="Листы для гюллач" data-emoji="📜">Листы гюллач</div>
+                        <div class="ingredient main-ingredient" data-name="Манка" data-emoji="🌾">Манка</div>
+                        <div class="ingredient main-ingredient" data-name="Рис" data-emoji="🍚">Рис</div>
+                        <div class="ingredient main-ingredient" data-name="Зерна" data-emoji="🌱">Зерна</div>
+                        <div class="ingredient main-ingredient" data-name="Крахмал" data-emoji="🧂">Крахмал</div>
+                        <div class="ingredient main-ingredient" data-name="Айва" data-emoji="🍐">Айва</div>
+                        <div class="ingredient main-ingredient" data-name="Морковь" data-emoji="🥕">Морковь</div>
+                    </div>
+                </div>
+                
+                <div class="ingredients-group">
+                    <div class="group-title">Дополнительные ингредиенты</div>
+                    <div class="ingredients-grid" id="main-ingredients-secondary">
+                        <div class="ingredient" data-name="Орехи" data-emoji="🌰">Орехи</div>
+                        <div class="ingredient" data-name="Сироп" data-emoji="🍯">Сироп</div>
+                        <div class="ingredient" data-name="Сыр" data-emoji="🧀">Сыр</div>
+                        <div class="ingredient" data-name="Молоко" data-emoji="🥛">Молоко</div>
+                        <div class="ingredient" data-name="Гранат" data-emoji="🍎">Гранат</div>
+                        <div class="ingredient" data-name="Мука" data-emoji="🍞">Мука</div>
+                        <div class="ingredient" data-name="Цедра" data-emoji="🍊">Цедра</div>
+                        <div class="ingredient" data-name="Сухофрукты" data-emoji="🍇">Сухофрукты</div>
+                        <div class="ingredient" data-name="Яйцо" data-emoji="🥚">Яйцо</div>
+                        <div class="ingredient" data-name="Кокос" data-emoji="🥥">Кокос</div>
+                    </div>
+                </div>
+                
+                <h3 class="section-title">Специи и пряности:</h3>
+                <div class="ingredients-grid" id="spice-ingredients">
+                    <div class="ingredient spice" data-name="Корица" data-emoji="🌿">Корица</div>
+                    <div class="ingredient spice" data-name="Гвоздика" data-emoji="⚜️">Гвоздика</div>
+                    <div class="ingredient spice" data-name="Кардамон" data-emoji="🌱">Кардамон</div>
+                    <div class="ingredient spice" data-name="Розовая вода" data-emoji="🌹💧">Розовая вода</div>
+                    <div class="ingredient spice" data-name="Ваниль" data-emoji="🌼">Ваниль</div>
+                    <div class="ingredient spice" data-name="Мастика" data-emoji="💎">Мастика</div>
+                    <div class="ingredient spice" data-name="Лимонная цедра" data-emoji="🍋">Лимонная цедра</div>
+                </div>
+            </div>
+            
+            <div class="cauldron-section">
+                <div class="cauldron-area">
+                    <div class="tajine">
+                        <div class="liquid"></div>
+                        <div class="bubbles"></div>
+                        <img src="https://radika1.link/2025/08/19/tagin-null46862484372f4a1b.png" class="tajine-bottom" alt="Основание тажина" id="tajine-bottom-img">
+                        <img src="https://radika1.link/2025/08/19/tagin-verkh0af61cb8b552873f.png" class="tajine-top" alt="Крышка тажина">
+                        <div class="smoke"></div>
+                    </div>
+                    <div class="dropped-ingredients"></div>
+                </div>
+                
+                <div class="selected-ingredients">
+                    <div class="selected-title">Добавлено в тажин:</div>
+                    <div class="selected-list" id="selected-list"></div>
+                </div>
+                
+                <div class="buttons-container">
+                    <button class="cook-btn" disabled>Колдовать!</button>
+                    <button class="section-reset-btn" id="section-reset-btn">Начать заново</button>
+                </div>
+            </div>
+            
+            <div class="result-section">
+                <h2 class="result-title">Волшебный десерт</h2>
+                <div class="recipe-result">
+                    <p>Выберите 3-8 ингредиентов, включая хотя бы один дополнительный и одну пряность для создания десерта</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <div class="instructions-container">
+                <img src="https://radika1.link/2025/08/20/LOGO-IGRYcd1f6bf18ffc2816.png" alt="Логотип игры">
+                <div class="instructions-text">
+                    Как играть: Нажмите на 3-8 ингредиентов из левой колонки. Добавьте хотя бы одну пряность и хотя бы один дополнительный ингредиент. Когда будете готовы, нажмите кнопку "Колдовать!" и наблюдайте за магией!
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="warning-modal" id="spice-warning">
+        <div class="warning-content">
+            <h3>Бэда Эйллынз напоминает:</h3>
+            <p>Добавьте в свое блюдо пряности для лучшего вкуса и магических свойств!</p>
+            <button class="warning-btn">Понятно</button>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Глобальный объект свойств специй
+            const spicePropertiesGlobal = {
+                "Корица": "огонь очага: дарует тепло и защищённость",
+                "Гвоздика": "печать искренности: раскрывает правду чувств",
+                "Кардамон": "ключ к дальним дорогам: дарит смелость и лёгкость пути",
+                "Розовая вода": "эхо воспоминаний: возвращает картины прошлого",
+                "Ваниль": "нить согласия: примиряет противоположности",
+                "Мастика": "дыхание вечности: останавливает мгновение",
+                "Лимонная цедра": "искры ясности: очищает мысли",
+                "Цедра": "искры ясности: очищает мысли"
+            };
+            
+            const recipes = [
+                {
+                    name: "Baklava",
+                    nameImage: "https://radika1.link/2025/08/19/Baklava73024dd50f8aa05c.png",
+                    dessertImage: "https://radika1.link/2025/08/19/Baklava0c35f9992653d3a1.png",
+                    description: "Слоёное тесто, орехи и сироп! Хрустящее золото Востока!",
+                    descriptionAlt: "Не совсем классическая Baklava, но все равно восхитительная!",
+                    ingredients: ["Фило", "Орехи", "Сироп"],
+                    mainIngredient: "Фило",
+                    spices: ["Корица", "Гвоздика"]
+                },
+                {
+                    name: "Künefe",
+                    nameImage: "https://radika1.link/2025/08/19/Kunefec9f902675b5dd216.png",
+                    dessertImage: "https://radika1.link/2025/08/19/Kunefe0f7f0bc4ad8eaa35.png",
+                    description: "Тянущийся сыр в сладких нитях теста! Горячая сладость, что тает во рту!",
+                    descriptionAlt: "Вариация на тему Künefe - сырное наслаждение с восточными нотками!",
+                    ingredients: ["Кадаиф", "Сыр", "Сироп"],
+                    mainIngredient: "Кадаиф",
+                    spices: ["Розовая вода", "Кардамон"]
+                },
+                {
+                    name: "Güllaç",
+                    nameImage: "https://radika1.link/2025/08/19/Gullac501c9b9b95258337.png",
+                    dessertImage: "https://radika1.link/2025/08/19/Gullac0175a6e6b5cda77d.png",
+                    description: "Лёгкие молочные лепестки с гранатом! Десерт-облако, свежесть праздника!",
+                    descriptionAlt: "Вдохновленный Güllaç десерт с нежным молочным вкусом!",
+                    ingredients: ["Листы для гюллач", "Молоко", "Гранат", "Орехи"],
+                    mainIngredient: "Листы для гюллач",
+                    spices: ["Розовая вода"]
+                },
+                {
+                    name: "Revani",
+                    nameImage: "https://radika1.link/2025/08/19/Revani26ddd7dc81f70e25.png",
+                    dessertImage: "https://radika1.link/2025/08/19/Revaniea8bbee766b1e4c0.png",
+                    description: "Манник в сиропе с цитрусовой искрой! Солнечный кусочек радости!",
+                    descriptionAlt: "Ароматный Revani с цитрусовыми нотками - просто объедение!",
+                    ingredients: ["Манка", "Мука", "Сироп"],
+                    mainIngredient: "Манка",
+                    spices: ["Лимонная цедра"]
+                },
+                {
+                    name: "Sütlaç",
+                    nameImage: "https://radika1.link/2025/08/19/Sutlac6e9b73c7a98f3e62.png",
+                    dessertImage: "https://radika1.link/2025/08/19/Sutlace50beb87cff02ffe.png",
+                    description: "Рисовый пудинг под корицей! Тёпльный уют в каждой ложке!",
+                    descriptionAlt: "Нежный рисовый пудинг с ароматом ванили и корицы!",
+                    ingredients: ["Рис", "Молоко", "Сироп"],
+                    mainIngredient: "Рис",
+                    spices: ["Корица", "Ваниль"]
+                },
+                {
+                    name: "Aşure",
+                    nameImage: "https://radika1.link/2025/08/19/Asure3b73f971ab7eed4b.png",
+                    dessertImage: "https://radika1.link/2025/08/19/Asuredaaefd3302be61c9.png",
+                    description: "Зерна, орехи и сухофрукты в одном! Праздник щедрости и надежды!",
+                    descriptionAlt: "Богатый и сытный десерт в духе Aşure с орехами и сухофруктами!",
+                    ingredients: ["Зерна", "Сухофрукты", "Орехи", "Сироп"],
+                    mainIngredient: "Зерна",
+                    spices: ["Корица", "Гвоздика", "Кардамон"]
+                },
+                {
+                    name: "Kazandibi",
+                    nameImage: "https://radika1.link/2025/08/19/Kazandibi928cee6a992ef717.png",
+                    dessertImage: "https://radika1.link/2025/08/19/Kazandibife13359f.png",
+                    description: "Крем с карамельной корочкой! Сладкое волшебство подгоревшего чуда!",
+                    descriptionAlt: "Кремовый десерт с карамельными нотками, напоминающий Kazandibi!",
+                    ingredients: ["Молоко", "Крахмал", "Сироп"],
+                    mainIngredient: "Крахмал",
+                    spices: ["Ваниль", "Мастика"]
+                },
+                {
+                    name: "Şekerpare",
+                    nameImage: "https://radika1.link/2025/08/19/Sekerparee14dabf1db0c0ac5.png",
+                    dessertImage: "https://radika1.link/2025/08/19/Sekerpare59dba3ab1784d196.png",
+                    description: "Миндальные шарики в сиропе! Мягкие, сочные, тающие мгновенно!",
+                    descriptionAlt: "Сладкие шарики в сиропе с ореховым вкусом - вариация Şekerpare!",
+                    ingredients: ["Мука", "Орехи", "Сироп"],
+                    mainIngredient: "Мука",
+                    spices: ["Лимонная цедра"]
+                },
+                {
+                    name: "Ayva Tatlısı",
+                    nameImage: "https://radika1.link/2025/08/19/Ayva-Tatlisic668081003fcd185.png",
+                    dessertImage: "https://radika1.link/2025/08/19/Ayva-Tatlisif9dc5c9f6c319a55.png",
+                    description: "Айва, тушёная в сиропе! Осенняя сказка на тарелке!",
+                    descriptionAlt: "Нежная айва в сладком сиропе с пряностями!",
+                    ingredients: ["Айва", "Сироп"],
+                    mainIngredient: "Айва",
+                    spices: ["Корица", "Гвоздика"]
+                },
+                {
+                    name: "Cezerye",
+                    nameImage: "https://radika1.link/2025/08/19/Cezerye63dc3210fa7ac7bd.png",
+                    dessertImage: "https://radika1.link/2025/08/19/Cezerye052e2e8c87d9df6f.png",
+                    description: "Морковные сладости с орехами! Восточный мармелад с солнечным вкусом!",
+                    descriptionAlt: "Сладкие морковные конфетки с орехами и кокосом!",
+                    ingredients: ["Морковь", "Орехи", "Сироп", "Кокос"],
+                    mainIngredient: "Морковь",
+                    spices: ["Ваниль", "Корица"]
+                },
+                {
+                    name: "Верблюжья колючка",
+                    dessertImage: "https://radika1.link/2025/08/20/VERBLYZY-KOLYCKA11542d644711c03c.png",
+                    description: "Кажется, вы перестарались с ингредиентами! Попробуйте другой набор.",
+                    ingredients: [],
+                    mainIngredient: "",
+                    spices: []
+                }
+            ];
+            
+            // Разделение ингредиентов на основные и специи
+            const mainIngredients = [
+                "Фило", "Орехи", "Сироп", "Кадаиф", "Сыр", "Листы для гюллач", 
+                "Молоко", "Гранат", "Манка", "Мука", "Цедра", "Рис", "Сухофрукты", 
+                "Зерна", "Крахмал", "Яйцо", "Айва", "Морковь", "Кокос"
+            ];
+            
+            const mainIngredientsPrimary = [
+                "Фило", "Кадаиф", "Листы для гюллач", "Манка", "Рис", 
+                "Зерна", "Крахмал", "Айва", "Морковь"
+            ];
+            
+            const spices = [
+                "Корица", "Гвоздика", "Кардамон", "Розовая вода", 
+                "Ваниль", "Мастика", "Лимонная цедра"
+            ];
+            
+            const ingredients = document.querySelectorAll('.ingredient');
+            const mainIngredientsContainer = document.getElementById('main-ingredients-primary');
+            const spiceIngredientsContainer = document.getElementById('spice-ingredients');
+            const cauldronArea = document.querySelector('.cauldron-area');
+            const droppedIngredients = document.querySelector('.dropped-ingredients');
+            const cookBtn = document.querySelector('.cook-btn');
+            const recipeResult = document.querySelector('.recipe-result');
+            const bubbles = document.querySelector('.bubbles');
+            const liquid = document.querySelector('.liquid');
+            const tajineTop = document.querySelector('.tajine-top');
+            const smoke = document.querySelector('.smoke');
+            const warningModal = document.getElementById('spice-warning');
+            const warningBtn = document.querySelector('.warning-btn');
+            const selectedList = document.getElementById('selected-list');
+            const sectionResetBtn = document.getElementById('section-reset-btn');
+            
+            const tajineBottomImg = document.getElementById('tajine-bottom-img');
+            
+            let selectedIngredients = [];
+            let selectedSpices = [];
+            let isCooking = false;
+            
+            // Обработчики для ингредиентов
+            ingredients.forEach(ingredient => {
+                ingredient.addEventListener('click', handleIngredientClick);
+            });
+            
+            function handleIngredientClick(e) {
+                if (isCooking) return;
+                
+                const ingredientName = this.dataset.name;
+                const ingredientEmoji = this.dataset.emoji;
+                const isSpice = this.classList.contains('spice');
+                const isMainIngredient = this.classList.contains('main-ingredient');
+                
+                // Проверяем, можно ли добавить еще ингредиенты
+                const totalSelected = selectedIngredients.length + selectedSpices.length;
+                
+                // Максимальное количество ингредиентов увеличено до 8
+                if (totalSelected >= 8) {
+                    // Показываем предупреждение о добавлении специи
+                    if (!isSpice && selectedSpices.length === 0) {
+                        warningModal.style.display = 'flex';
+                    }
+                    return; // Нельзя добавить больше 8 ингредиентов
+                }
+                
+                // Анимация перелета
+                const rect = this.getBoundingClientRect();
+                const startX = rect.left + rect.width / 2;
+                const startY = rect.top + rect.height / 2;
+                
+                const cauldronRect = cauldronArea.getBoundingClientRect();
+                const endX = cauldronRect.left + cauldronRect.width / 2;
+                const endY = cauldronRect.top + cauldronRect.height / 2;
+                
+                const flyingEmoji = document.createElement('div');
+                flyingEmoji.className = 'flying-emoji';
+                flyingEmoji.textContent = ingredientEmoji;
+                flyingEmoji.style.left = `${startX}px`;
+                flyingEmoji.style.top = `${startY}px`;
+                flyingEmoji.style.setProperty('--tx', `${endX - startX}px`);
+                flyingEmoji.style.setProperty('--ty', `${endY - startY}px`);
+                
+                document.body.appendChild(flyingEmoji);
+                
+                setTimeout(() => {
+                    flyingEmoji.remove();
+                    addIngredientToCauldron(ingredientName, ingredientEmoji, isSpice, isMainIngredient);
+                }, 1000);
+            }
+            
+            function addIngredientToCauldron(name, emoji, isSpice, isMainIngredient) {
+                // Проверяем, является ли ингредиент специей
+                if (isSpice) {
+                    if (selectedSpices.includes(name)) return; // уже есть такая специя
+                    selectedSpices.push(name);
+                } else {
+                    if (selectedIngredients.includes(name)) return; // уже есть такой ингредиент
+                    selectedIngredients.push(name);
+                }
+                
+                // Обновляем список выбранных ингредиентов
+                updateSelectedList();
+                
+                // Обновляем состояние кнопок ингредиентов
+                updateIngredientsState();
+                
+                // Меняем изображение тажина при первом добавленном ингредиенте
+                if ((selectedIngredients.length + selectedSpices.length) === 1) {
+                    tajineBottomImg.src = 'https://radika1.link/2025/08/19/tagin-nizh77c3fdda0922cd4f.png';
+                }
+                
+                const droppedElement = document.createElement('div');
+                droppedElement.className = 'dropped-ingredient';
+                droppedElement.textContent = emoji;
+                droppedElement.style.left = `${Math.random() * 250}px`;
+                
+                droppedIngredients.appendChild(droppedElement);
+                
+                setTimeout(() => {
+                    droppedElement.remove();
+                }, 2000);
+                
+                // Активируем кнопку "Колдовать!" если есть минимум 3 ингредиента и хотя бы одна специя
+                cookBtn.disabled = !((selectedIngredients.length + selectedSpices.length) >= 3 && selectedSpices.length >= 1);
+            }
+            
+            function updateSelectedList() {
+                selectedList.innerHTML = '';
+                
+                // Сначала добавляем главные ингредиенты
+                const mainSelected = selectedIngredients.filter(ing => mainIngredientsPrimary.includes(ing));
+                mainSelected.forEach(ingredient => {
+                    const item = document.createElement('div');
+                    item.className = 'selected-item main-ingredient';
+                    item.textContent = ingredient;
+                    selectedList.appendChild(item);
+                });
+                
+                // Затем добавляем дополнительные ингредиенты
+                const otherSelected = selectedIngredients.filter(ing => !mainIngredientsPrimary.includes(ing));
+                otherSelected.forEach(ingredient => {
+                    const item = document.createElement('div');
+                    item.className = 'selected-item';
+                    item.textContent = ingredient;
+                    selectedList.appendChild(item);
+                });
+                
+                // Добавляем специи
+                selectedSpices.forEach(spice => {
+                    const item = document.createElement('div');
+                    item.className = 'selected-item spice';
+                    item.textContent = spice;
+                    selectedList.appendChild(item);
+                });
+            }
+            
+            function updateIngredientsState() {
+                const totalSelected = selectedIngredients.length + selectedSpices.length;
+                
+                // Отключаем все ингредиенты, если выбрано 8
+                if (totalSelected >= 8) {
+                    ingredients.forEach(ing => {
+                        ing.classList.add('disabled');
+                    });
+                } 
+                // Включаем все ингредиенты, если выбрано меньше 8
+                else {
+                    ingredients.forEach(ing => {
+                        ing.classList.remove('disabled');
+                    });
+                }
+            }
+            
+            cookBtn.addEventListener('click', cookRecipe);
+            
+            warningBtn.addEventListener('click', () => {
+                warningModal.style.display = 'none';
+            });
+            
+            sectionResetBtn.addEventListener('click', resetGame);
+            
+            function resetGame() {
+                selectedIngredients = [];
+                selectedSpices = [];
+                updateSelectedList();
+                updateIngredientsState();
+                recipeResult.innerHTML = '<p>Выберите 3-8 ингредиентов, включая хотя бы один дополнительный и одну пряность для создания десерта</p>';
+                tajineBottomImg.src = 'https://radika1.link/2025/08/19/tagin-null46862484372f4a1b.png';
+                cookBtn.disabled = true;
+                
+                // Останавливаем анимации
+                stopSmoke();
+                bubbles.innerHTML = '';
+                tajineTop.classList.remove('cooking');
+                isCooking = false;
+            }
+            
+            function cookRecipe() {
+                if (isCooking) return;
+                
+                // Проверка на наличие специй
+                if (selectedSpices.length === 0) {
+                    warningModal.style.display = 'flex';
+                    return;
+                }
+                
+                isCooking = true;
+                cookBtn.disabled = true;
+                tajineTop.classList.add('cooking');
+                createBubbles();
+                createSmoke();
+                
+                setTimeout(() => {
+                    bubbles.innerHTML = '';
+                    stopSmoke();
+                    tajineTop.classList.remove('cooking');
+                    
+                    const recipe = findBestRecipeMatch();
+                    displayRecipe(recipe);
+                    
+                    // Очищаем список добавленных ингредиентов после приготовления
+                    selectedIngredients = [];
+                    selectedSpices = [];
+                    updateSelectedList();
+                    updateIngredientsState();
+                    
+                    isCooking = false;
+                }, 3000);
+            }
+            
+            function findBestRecipeMatch() {
+    // Получаем выбранные главные ингредиенты
+    const selectedMainIngredients = selectedIngredients.filter(ing => mainIngredientsPrimary.includes(ing));
+    const selectedAdditionalIngredients = selectedIngredients.filter(ing => !mainIngredientsPrimary.includes(ing));
+    
+    // Условия для Верблюжьей колючки
+    if (selectedMainIngredients.length === 0 || selectedMainIngredients.length >= 3) {
+        return recipes.find(r => r.name === "Верблюжья колючка");
+    }
+    
+    // Если выбрано 2 главных ингредиента
+    if (selectedMainIngredients.length === 2) {
+        return analyzeTwoMainIngredients(selectedMainIngredients, selectedAdditionalIngredients);
+    }
+    
+    // Если выбран 1 главный ингредиент
+    const selectedMainIngredient = selectedMainIngredients[0];
+    
+    // Ищем рецепты с таким же главным ингредиентом
+    const potentialRecipes = recipes.filter(recipe => 
+        recipe.mainIngredient === selectedMainIngredient && recipe.name !== "Верблюжья колючка"
+    );
+    
+    // Если нет подходящих рецептов
+    if (potentialRecipes.length === 0) {
+        return recipes.find(r => r.name === "Верблюжья колючка");
+    }
+    
+    let bestRecipe = null;
+    let bestMatchCount = 0;
+    let missingIngredients = [];
+    
+    // Для каждого потенциального рецепта считаем совпадения ДОПОЛНИТЕЛЬНЫХ ингредиентов
+    for (const recipe of potentialRecipes) {
+        // Исключаем главный ингредиент из проверки
+        const recipeAdditionalIngredients = recipe.ingredients.filter(ing => ing !== recipe.mainIngredient);
+        
+        const matchingIngredients = recipeAdditionalIngredients.filter(ing => 
+            selectedAdditionalIngredients.includes(ing)
+        );
+        const matchCount = matchingIngredients.length;
+        
+        if (matchCount > bestMatchCount) {
+            bestMatchCount = matchCount;
+            bestRecipe = recipe;
+            missingIngredients = recipeAdditionalIngredients.filter(ing => 
+                !selectedAdditionalIngredients.includes(ing)
+            );
+        }
+    }
+    
+    // Если нет совпадений дополнительных ингредиентов - возвращаем Верблюжью колючку
+    if (bestMatchCount === 0) {
+        return recipes.find(r => r.name === "Верблюжья колючка");
+    }
+    
+    // Если все ингредиенты совпали
+    if (bestMatchCount === bestRecipe.ingredients.length - 1) { // -1 потому что исключили главный ингредиент
+        return bestRecipe;
+    }
+    
+    // Если не все ингредиенты совпали, создаем адаптированную версию
+    const adaptedRecipe = {...bestRecipe};
+    adaptedRecipe.description = `${bestRecipe.description} Но попробуйте добавить ${missingIngredients.join(', ')} для лучшего результата!`;
+    return adaptedRecipe;
+}
+            
+           function analyzeTwoMainIngredients(selectedMainIngredients, selectedAdditionalIngredients) {
+    // Ищем рецепты, где главный ингредиент совпадает с одним из выбранных
+    const potentialRecipes = recipes.filter(recipe => 
+        selectedMainIngredients.includes(recipe.mainIngredient) && recipe.name !== "Верблюжья колючка"
+    );
+    
+    // Если нет подходящих рецептов
+    if (potentialRecipes.length === 0) {
+        return recipes.find(r => r.name === "Верблюжья колючка");
+    }
+    
+    let bestRecipe = null;
+    let bestMatchCount = 0;
+    let missingIngredients = [];
+    
+    // Для каждого потенциального рецепта считаем совпадения дополнительных ингредиентов
+    for (const recipe of potentialRecipes) {
+        // Исключаем главный ингредиент из проверки
+        const recipeAdditionalIngredients = recipe.ingredients.filter(ing => ing !== recipe.mainIngredient);
+        
+        const matchingIngredients = recipeAdditionalIngredients.filter(ing => 
+            selectedAdditionalIngredients.includes(ing)
+        );
+        const matchCount = matchingIngredients.length;
+        
+        if (matchCount > bestMatchCount) {
+            bestMatchCount = matchCount;
+            bestRecipe = recipe;
+            missingIngredients = recipeAdditionalIngredients.filter(ing => 
+                !selectedAdditionalIngredients.includes(ing)
+            );
+        }
+    }
+    
+    // Если нет совпадений дополнительных ингредиентов
+    if (bestMatchCount === 0) {
+        return recipes.find(r => r.name === "Верблюжья колючка");
+    }
+    
+    // Создаем адаптированную версию с рекомендациями
+    const adaptedRecipe = {...bestRecipe};
+    
+    if (bestMatchCount === 1) {
+        adaptedRecipe.description = `${bestRecipe.description} Попробуйте добавить ${missingIngredients.join(', ')} для лучшего результата.`;
+    } else {
+        adaptedRecipe.description = `${bestRecipe.description} Для более традиционного вкуса добавьте ${missingIngredients.join(', ')}.`;
+    }
+    
+    return adaptedRecipe;
+}
+            
+            function createBubbles() {
+                const bubblesContainer = document.querySelector('.bubbles');
+                bubblesContainer.innerHTML = '';
+                
+                for (let i = 0; i < 20; i++) {
+                    const bubble = document.createElement('div');
+                    bubble.className = 'bubble';
+                    
+                    const size = Math.random() * 20 + 10;
+                    const left = Math.random() * 160 + 20;
+                    const delay = Math.random() * 3;
+                    
+                    bubble.style.width = `${size}px`;
+                    bubble.style.height = `${size}px`;
+                    bubble.style.left = `${left}px`;
+                    bubble.style.animationDelay = `${delay}s`;
+                    
+                    bubblesContainer.appendChild(bubble);
+                }
+            }
+            
+            function createSmoke() {
+                smoke.innerHTML = '';
+                smoke.classList.add('visible');
+                
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(() => {
+                        const particle = document.createElement('div');
+                        particle.className = 'smoke-particle';
+                        
+                        const size = Math.random() * 30 + 20;
+                        const left = Math.random() * 60 - 30;
+                        const delay = Math.random() * 2;
+                        const duration = Math.random() * 4 + 4;
+                        
+                        particle.style.width = `${size}px`;
+                        particle.style.height = `${size}px`;
+                        particle.style.left = `${left}px`;
+                        particle.style.animationDuration = `${duration}s`;
+                        particle.style.animationDelay = `${delay}s`;
+                        
+                        smoke.appendChild(particle);
+                        
+                        setTimeout(() => {
+                            if (particle.parentNode) {
+                                particle.remove();
+                            }
+                        }, (duration + delay) * 1000);
+                    }, i * 300);
+                }
+            }
+            
+            function stopSmoke() {
+                smoke.classList.remove('visible');
+                smoke.innerHTML = '';
+            }
+            
+            function displayRecipe(recipe) {
+                let ingredientsHTML = '';
+                let specialPropertyHTML = '';
+                
+                if (recipe.ingredients.length > 0) {
+                    // Форматируем список ингредиентов, выделяя те, которые добавил пользователь
+                    const formattedIngredients = recipe.ingredients.map(ing => {
+                        if (selectedIngredients.includes(ing)) {
+                            return `<span class="ingredient-highlight">${ing}</span>`;
+                        }
+                        return ing;
+                    }).join(', ');
+                    
+                    ingredientsHTML = `<p class="recipe-ingredients">Основные ингредиенты: ${formattedIngredients}</p>`;
+                }
+                
+                // Отображаем особые свойства для всех блюд, кроме Верблюжьей колючки
+                if (recipe.name !== "Верблюжья колючка" && selectedSpices.length > 0) {
+                    // Если добавлено две или три специи - выбираем любую из них для отображения свойства
+                    const spiceToShow = selectedSpices[Math.floor(Math.random() * selectedSpices.length)];
+                    
+                    if (spicePropertiesGlobal[spiceToShow]) {
+                        specialPropertyHTML = `<p class="recipe-special">Особое свойство (${spiceToShow}): ${spicePropertiesGlobal[spiceToShow]}</p>`;
+                    }
+                }
+                
+                let resultHTML = '';
+                
+                if (recipe.name === "Верблюжья колючка") {
+                    resultHTML = `
+                        <img src="${recipe.dessertImage}" alt="${recipe.name}" class="dessert-image">
+                        <p class="recipe-description">${recipe.description}</p>
+                    `;
+                } else {
+                    // Проверяем, является ли рецепт полным (все ингредиенты присутствуют)
+                    const isPerfectRecipe = recipe.ingredients.every(ing => selectedIngredients.includes(ing));
+                    
+                    resultHTML = `
+                        <img src="${recipe.dessertImage}" alt="${recipe.name}" class="dessert-image">
+                        <img src="${recipe.nameImage}" alt="${recipe.name}" class="recipe-name-image">
+                        <p class="recipe-description">${isPerfectRecipe ? 'Даже Бэда не приготовила бы лучше! ' + recipe.description : recipe.description}</p>
+                        ${specialPropertyHTML}
+                        ${ingredientsHTML}
+                    `;
+                }
+                
+                recipeResult.innerHTML = resultHTML;
+            }
+        });
+    </script>
+</body>
+</html>
