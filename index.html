@@ -811,6 +811,19 @@
                 width: 100%;
                 justify-content: flex-end;
             }
+			
+			    .tour-buttons {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-top: 5px;
+    }
+    
+    .tour-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+        min-width: 30px;
+    }
             
             .date {
                 order: 2;
@@ -1046,7 +1059,7 @@
     <div class="tour2-modal" id="tour2-modal">
         <div class="tour2-content">
             <h2 class="tour2-title">Контент недоступен</h2>
-            <p class="tour2-text">Сериал "Потерянная в песках. Путь домой" больше недоступен для просмотра. Подробности только на официальной странице "Cockroach Quibbler"!</p>
+            <p class="tour2-text">Сериал "Потерянная в песках. Путь домой" больше недоступен для просмотра. Подробности только на официальной странице Cockroach Quibbler!</p>
             <a href="CockroachQuibbler.html" class="tour2-link" target="_blank">Перейти на сайт</a>
         </div>
     </div>
@@ -1157,6 +1170,22 @@ tour1Btn.addEventListener('click', function() {
     const homeMenuItem = document.querySelector('.menu li[data-section="home"]');
     updateSlider(homeMenuItem);
 });
+
+// Функция для адаптации кнопок туров
+    function adaptTourButtons() {
+        if (window.innerWidth <= 767) {
+            tour1Btn.textContent = 'I';
+            tour2Btn.textContent = 'II';
+        } else {
+            tour1Btn.textContent = 'I тур';
+            tour2Btn.textContent = 'II тур';
+        }
+    }
+
+    // Вызываем при загрузке и изменении размера окна
+    window.addEventListener('resize', adaptTourButtons);
+    adaptTourButtons();
+
 			
             tour2Btn.addEventListener('click', function() {
                 tour2Btn.classList.add('active');
