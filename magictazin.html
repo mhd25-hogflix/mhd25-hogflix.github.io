@@ -651,6 +651,55 @@
             transform: scale(1.05);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
         }
+
+		.instructions-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.instructions-header img {
+    height: 80px;
+    flex-shrink: 0;
+}
+
+.instructions-intro {
+    flex: 1;
+    text-align: left;
+}
+
+.instructions-body {
+    width: 100%;
+    text-align: center;
+}
+
+.tips-title {
+    font-weight: bold;
+    margin: 15px 0 10px;
+}
+
+.tips-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    display: inline-block;
+}
+
+.tips-list li {
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.tips-list li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #5a2a47;
+    font-size: 1.2rem;
+}
         
         @media (max-width: 768px) {
             .game-area {
@@ -682,54 +731,6 @@
                 flex-direction: column;
                 align-items: center;
             }
-			
-			.instructions-header {
-			    display: flex;
-			    align-items: flex-start;
-			    gap: 15px;
-			    margin-bottom: 20px;
-			}
-			
-			.instructions-header img {
-			    height: 80px;
-			    flex-shrink: 0;
-			}
-			
-			.instructions-intro {
-			    flex: 1;
-			}
-			
-			.instructions-body {
-			    width: 100%;
-			    text-align: center;
-			}
-			
-			.tips-title {
-			    font-weight: bold;
-			    margin: 15px 0 10px;
-			}
-			
-			.tips-list {
-			    list-style: none;
-			    padding: 0;
-			    margin: 0;
-			    text-align: left;
-			    display: inline-block;
-			}
-			
-			.tips-list li {
-			    margin-bottom: 8px;
-			    position: relative;
-			    padding-left: 20px;
-			}
-			
-			.tips-list li:before {
-			    content: "•";
-			    position: absolute;
-			    left: 0;
-			    color: #5a2a47;
-			    font-size: 1.2rem;
-			}
 			        }
     </style>
 </head>
