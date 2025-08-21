@@ -1378,54 +1378,55 @@
                 smoke.innerHTML = '';
             }
             
-            function displayRecipe(recipe) {
-                let ingredientsHTML = '';
-                let specialPropertyHTML = '';
-                
-                if (recipe.ingredients.length > 0) {
-                    // Форматируем список ингредиентов, выделяя те, которые добавил пользователь
-                    const formattedIngredients = recipe.ingredients.map(ing => {
-                        if (selectedIngredients.includes(ing)) {
-                            return `<span class="ingredient-highlight">${ing}</span>`;
-                        }
-                        return ing;
-                    }).join(', ');
-                    
-                    ingredientsHTML = `<p class="recipe-ingredients">Основные ингредиенты: ${formattedIngredients}</p>`;
-                }
-                
-                // Отображаем особые свойства для всех блюд, кроме Верблюжьей колючки
-                if (recipe.name !== "Верблюжья колючка" && selectedSpices.length > 0) {
-                    // Если добавлено две или три специи - выбираем любую из них для отображения свойства
-                    const spiceToShow = selectedSpices[Math.floor(Math.random() * selectedSpices.length)];
-                    
-                    if (spicePropertiesGlobal[spiceToShow]) {
-                        specialPropertyHTML = `<p class="recipe-special">Особое свойство (${spiceToShow}): ${spicePropertiesGlobal[spiceToShow]}</p>`;
-                    }
-                }
-                
-                let resultHTML = '';
-                
-                if (recipe.name === "Верблюжья колючка") {
-                    resultHTML = `
-                        <img src="${recipe.dessertImage}" alt="${recipe.name}" class="dessert-image">
-                        <p class="recipe-description">${recipe.description}</p>
-                    `;
-                } else {
-                    // Проверяем, является ли рецепт полным (все ингредиенты присутствуют)
-                    const isPerfectRecipe = recipe.ingredients.every(ing => selectedIngredients.includes(ing));
-                    
-                    resultHTML = `
-                        <img src="${recipe.dessertImage}" alt="${recipe.name}" class="dessert-image">
-                        <img src="${recipe.nameImage}" alt="${recipe.name}" class="recipe-name-image">
-                        <p class="recipe-description">${isPerfectRecipe ? 'Даже Бэда не приготовила бы лучше! ' + recipe.description : recipe.description}</p>
-                        ${specialPropertyHTML}
-                        ${ingredientsHTML}
-                    `;
-                }
-                
-                recipeResult.innerHTML = resultHTML;
+function displayRecipe(recipe) {
+    let ingredientsHTML = '';
+    let specialPropertyHTML = '';
+    
+    if (recipe.ingredients.length > 0) {
+        // Форматируем список ингредиентов, выделяя те, которые добавил пользователь
+        const formattedIngredients = recipe.ingredients.map(ing => {
+            if (selectedIngredients.includes(ing)) {
+                return `<span class="ingredient-highlight">${ing}</span>`;
             }
+            return ing;
+        }).join(', ');
+        
+        ingredientsHTML = `<p class="recipe-ingredients">Основные ингредиенты: ${formattedIngredients}</p>`;
+    }
+    
+    // Отображаем особые свойства для всех блюд, кроме Верблюжьей колючки
+    if (recipe.name !== "Верблюжья колючка" && selectedSpices.length > 0) {
+        // Если добавлено две или три специи - выбираем любую из них для отображения свойства
+        const spiceToShow = selectedSpices[Math.floor(Math.random() * selectedSpices.length)];
+        
+        if (spicePropertiesGlobal[spiceToShow]) {
+            specialPropertyHTML = `<p class="recipe-special">Особое свойство (${spiceToShow}): ${spicePropertiesGlobal[spiceToShow]}</p>`;
+        }
+    }
+    
+    let resultHTML = '';
+    
+    if (recipe.name === "Верблюжья колючка") {
+        resultHTML = `
+            <img src="${recipe.dessertImage}" alt="${recipe.name}" class="dessert-image">
+            <img src="${recipe.nameImage}" alt="${recipe.name}" class="recipe-name-image">
+            <p class="recipe-description">${recipe.description}</p>
+        `;
+    } else {
+        // Проверяем, является ли рецепт полным (все ингредиенты присутствуют)
+        const isPerfectRecipe = recipe.ingredients.every(ing => selectedIngredients.includes(ing));
+        
+        resultHTML = `
+            <img src="${recipe.dessertImage}" alt="${recipe.name}" class="dessert-image">
+            <img src="${recipe.nameImage}" alt="${recipe.name}" class="recipe-name-image">
+            <p class="recipe-description">${isPerfectRecipe ? 'Даже Бэда не приготовила бы лучше! ' + recipe.description : recipe.description}</p>
+            ${specialPropertyHTML}
+            ${ingredientsHTML}
+        `;
+    }
+    
+    recipeResult.innerHTML = resultHTML;
+}
         });
     </script>
 </body>
