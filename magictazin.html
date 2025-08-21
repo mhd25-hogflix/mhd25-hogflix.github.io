@@ -757,7 +757,7 @@
                 </div>
                 
                 <div class="buttons-container">
-                    <button class="cook-btn" disabled>Колдовать!</button>
+                    <button class="cook-btn" disabled>Приготовить</button>
                     <button class="section-reset-btn" id="section-reset-btn">Начать заново</button>
                 </div>
             </div>
@@ -765,20 +765,27 @@
             <div class="result-section">
                 <h2 class="result-title">Волшебный десерт</h2>
                 <div class="recipe-result">
-                    <p>Выберите 3-8 ингредиентов, включая хотя бы один дополнительный и одну пряность для создания десерта</p>
+                    <p>Выберите от 3-х до 8-ми ингредиентов, включая хотя бы одну пряность для создания своего десерта</p>
                 </div>
             </div>
         </div>
         
-        <div class="instructions">
-            <div class="instructions-container">
-                <img src="https://radika1.link/2025/08/20/LOGO-IGRYcd1f6bf18ffc2816.png" alt="Логотип игры">
-                <div class="instructions-text">
-                    Как играть: Нажмите на 3-8 ингредиентов из левой колонки. Добавьте хотя бы одну пряность и хотя бы один дополнительный ингредиент. Когда будете готовы, нажмите кнопку "Колдовать!" и наблюдайте за магией!
-                </div>
-            </div>
+<div class="instructions">
+    <div class="instructions-container">
+        <img src="https://radika1.link/2025/08/20/LOGO-IGRYcd1f6bf18ffc2816.png" alt="таракан-повар">
+        <div class="instructions-text">
+            <p>Окунитесь в мир восточной кулинарной магии и создавайте десерты, комбинируя различные ингредиенты в волшебном тажине.</p>
+            <p>Выберите от 3 до 8 ингредиентов из доступных в левой колонке, чтобы создать свой кулинарный шедевр. Не забудьте добавить пряности — они придают не только вкус, но и особые магические свойства вашему десерту.</p>
+            <p>Когда будете готовы, нажмите кнопку "Приготовить" и наблюдайте за магией!</p>
+            <p>Советы:</p>
+            <ul>
+                <li>Экспериментируйте с разными комбинациями ингредиентов</li>
+                <li>Каждый рецепт требует определенного набора компонентов</li>
+                <li>Если что-то пошло не так, всегда можно начать заново</li>
+            </ul>
         </div>
     </div>
+</div>
     
     <div class="warning-modal" id="spice-warning">
         <div class="warning-content">
@@ -792,14 +799,14 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Глобальный объект свойств специй
             const spicePropertiesGlobal = {
-                "Корица": "огонь очага: дарует тепло и защищённость",
-                "Гвоздика": "печать искренности: раскрывает правду чувств",
-                "Кардамон": "ключ к дальним дорогам: дарит смелость и лёгкость пути",
-                "Розовая вода": "эхо воспоминаний: возвращает картины прошлого",
-                "Ваниль": "нить согласия: примиряет противоположности",
-                "Мастика": "дыхание вечности: останавливает мгновение",
-                "Лимонная цедра": "искры ясности: очищает мысли",
-                "Цедра": "искры ясности: очищает мысли"
+                "Корица": "дарует тепло и защищённость",
+                "Гвоздика": "раскрывает правду чувств",
+                "Кардамон": "дарит смелость и лёгкость пути",
+                "Розовая вода": "возвращает картины прошлого",
+                "Ваниль": "примиряет противоположности",
+                "Мастика": "останавливает мгновение",
+                "Лимонная цедра": "очищает мысли",
+                "Цедра": "очищает мысли"
             };
             
             const recipes = [
@@ -808,7 +815,7 @@
                     nameImage: "https://radika1.link/2025/08/19/Baklava73024dd50f8aa05c.png",
                     dessertImage: "https://radika1.link/2025/08/19/Baklava0c35f9992653d3a1.png",
                     description: "Слоёное тесто, орехи и сироп! Хрустящее золото Востока!",
-                    descriptionAlt: "Не совсем классическая Baklava, но все равно восхитительная!",
+                    descriptionAlt: "Не совсем классическая пахлава, но все равно восхитительная!",
                     ingredients: ["Фило", "Орехи", "Сироп"],
                     mainIngredient: "Фило",
                     spices: ["Корица", "Гвоздика"]
@@ -818,7 +825,7 @@
                     nameImage: "https://radika1.link/2025/08/19/Kunefec9f902675b5dd216.png",
                     dessertImage: "https://radika1.link/2025/08/19/Kunefe0f7f0bc4ad8eaa35.png",
                     description: "Тянущийся сыр в сладких нитях теста! Горячая сладость, что тает во рту!",
-                    descriptionAlt: "Вариация на тему Künefe - сырное наслаждение с восточными нотками!",
+                    descriptionAlt: "Вариация на тему кюнефе - сырное наслаждение с восточными нотками!",
                     ingredients: ["Кадаиф", "Сыр", "Сироп"],
                     mainIngredient: "Кадаиф",
                     spices: ["Розовая вода", "Кардамон"]
@@ -828,7 +835,7 @@
                     nameImage: "https://radika1.link/2025/08/19/Gullac501c9b9b95258337.png",
                     dessertImage: "https://radika1.link/2025/08/19/Gullac0175a6e6b5cda77d.png",
                     description: "Лёгкие молочные лепестки с гранатом! Десерт-облако, свежесть праздника!",
-                    descriptionAlt: "Вдохновленный Güllaç десерт с нежным молочным вкусом!",
+                    descriptionAlt: "Вдохновленный гюллач десерт с нежным молочным вкусом!",
                     ingredients: ["Листы для гюллач", "Молоко", "Гранат", "Орехи"],
                     mainIngredient: "Листы для гюллач",
                     spices: ["Розовая вода"]
@@ -838,7 +845,7 @@
                     nameImage: "https://radika1.link/2025/08/19/Revani26ddd7dc81f70e25.png",
                     dessertImage: "https://radika1.link/2025/08/19/Revaniea8bbee766b1e4c0.png",
                     description: "Манник в сиропе с цитрусовой искрой! Солнечный кусочек радости!",
-                    descriptionAlt: "Ароматный Revani с цитрусовыми нотками - просто объедение!",
+                    descriptionAlt: "Ароматный ревани с цитрусовыми нотками - просто объедение!",
                     ingredients: ["Манка", "Мука", "Сироп"],
                     mainIngredient: "Манка",
                     spices: ["Лимонная цедра"]
@@ -858,7 +865,7 @@
                     nameImage: "https://radika1.link/2025/08/19/Asure3b73f971ab7eed4b.png",
                     dessertImage: "https://radika1.link/2025/08/19/Asuredaaefd3302be61c9.png",
                     description: "Зерна, орехи и сухофрукты в одном! Праздник щедрости и надежды!",
-                    descriptionAlt: "Богатый и сытный десерт в духе Aşure с орехами и сухофруктами!",
+                    descriptionAlt: "Богатый и сытный десерт в духе ашуре с орехами и сухофруктами!",
                     ingredients: ["Зерна", "Сухофрукты", "Орехи", "Сироп"],
                     mainIngredient: "Зерна",
                     spices: ["Корица", "Гвоздика", "Кардамон"]
@@ -868,7 +875,7 @@
                     nameImage: "https://radika1.link/2025/08/19/Kazandibi928cee6a992ef717.png",
                     dessertImage: "https://radika1.link/2025/08/19/Kazandibife13359f.png",
                     description: "Крем с карамельной корочкой! Сладкое волшебство подгоревшего чуда!",
-                    descriptionAlt: "Кремовый десерт с карамельными нотками, напоминающий Kazandibi!",
+                    descriptionAlt: "Кремовый десерт с карамельными нотками, напоминающий казандиби!",
                     ingredients: ["Молоко", "Крахмал", "Сироп"],
                     mainIngredient: "Крахмал",
                     spices: ["Ваниль", "Мастика"]
@@ -878,7 +885,7 @@
                     nameImage: "https://radika1.link/2025/08/19/Sekerparee14dabf1db0c0ac5.png",
                     dessertImage: "https://radika1.link/2025/08/19/Sekerpare59dba3ab1784d196.png",
                     description: "Миндальные шарики в сиропе! Мягкие, сочные, тающие мгновенно!",
-                    descriptionAlt: "Сладкие шарики в сиропе с ореховым вкусом - вариация Şekerpare!",
+                    descriptionAlt: "Сладкие шарики в сиропе с ореховым вкусом - вариация шекерпаре!",
                     ingredients: ["Мука", "Орехи", "Сироп"],
                     mainIngredient: "Мука",
                     spices: ["Лимонная цедра"]
@@ -906,7 +913,7 @@
                 {
                     name: "Верблюжья колючка",
                     dessertImage: "https://radika1.link/2025/08/20/VERBLYZY-KOLYCKA11542d644711c03c.png",
-                    description: "Кажется, вы перестарались с ингредиентами! Попробуйте другой набор.",
+                    description: "Кажется, вы перемудрили с ингредиентами! Даже волшебный тажин не смог это исправить. Попробуйте еще раз!",
                     ingredients: [],
                     mainIngredient: "",
                     spices: []
@@ -1034,7 +1041,7 @@
                     droppedElement.remove();
                 }, 2000);
                 
-                // Активируем кнопку "Колдовать!" если есть минимум 3 ингредиента и хотя бы одна специя
+                // Активируем кнопку "Приготовить!" если есть минимум 3 ингредиента и хотя бы одна специя
                 cookBtn.disabled = !((selectedIngredients.length + selectedSpices.length) >= 3 && selectedSpices.length >= 1);
             }
             
@@ -1098,7 +1105,7 @@
                 selectedSpices = [];
                 updateSelectedList();
                 updateIngredientsState();
-                recipeResult.innerHTML = '<p>Выберите 3-8 ингредиентов, включая хотя бы один дополнительный и одну пряность для создания десерта</p>';
+                recipeResult.innerHTML = '<p>Выберите от 3-х до 8-ми ингредиентов, включая хотя бы один дополнительный и одну пряность для создания десерта</p>';
                 tajineBottomImg.src = 'https://radika1.link/2025/08/19/tagin-null46862484372f4a1b.png';
                 cookBtn.disabled = true;
                 
