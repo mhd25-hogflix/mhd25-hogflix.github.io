@@ -707,6 +707,158 @@
             transform: translateY(-2px);
         }
 
+        /* Модальные окна для III тура */
+        .tour3-confirm-modal,
+        .tour3-robot-modal,
+        .tour3-riddle-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tour3-confirm-content,
+        .tour3-robot-content,
+        .tour3-riddle-content {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            border: 3px solid #e50914;
+            box-shadow: 0 0 30px rgba(229, 9, 20, 0.7);
+        }
+        
+        .tour3-confirm-title,
+        .tour3-robot-title,
+        .tour3-riddle-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #e50914;
+            font-weight: bold;
+        }
+        
+        .tour3-confirm-text,
+        .tour3-robot-text,
+        .tour3-riddle-text {
+            font-size: 16px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        
+        .tour3-confirm-buttons,
+        .tour3-robot-buttons,
+        .tour3-riddle-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .tour3-confirm-btn,
+        .tour3-robot-btn,
+        .tour3-riddle-btn {
+            padding: 10px 25px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .tour3-confirm-cancel,
+        .tour3-robot-cancel,
+        .tour3-riddle-cancel {
+            background-color: #555;
+            color: white;
+        }
+        
+        .tour3-confirm-cancel:hover,
+        .tour3-robot-cancel:hover,
+        .tour3-riddle-cancel:hover {
+            background-color: #777;
+        }
+        
+        .tour3-confirm-proceed,
+        .tour3-robot-submit,
+        .tour3-riddle-submit {
+            background-color: #E50914;
+            color: white;
+        }
+        
+        .tour3-confirm-proceed:hover,
+        .tour3-robot-submit:hover,
+        .tour3-riddle-submit:hover {
+            background-color: #E50914;
+        }
+        
+        .tour3-robot-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .tour3-robot-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background-color: #2c2c2c;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .tour3-robot-option:hover {
+            background-color: #3c3c3c;
+        }
+        
+        .tour3-robot-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .tour3-robot-option label {
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .tour3-camels-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            font-size: 30px;
+        }
+        
+        .tour3-riddle-input {
+            padding: 10px 15px;
+            border-radius: 4px;
+            border: 1px solid #555;
+            background-color: #2c2c2c;
+            color: white;
+            font-size: 16px;
+            width: 100px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .tour3-error {
+            color: #e50914;
+            margin-top: 10px;
+            display: none;
+        }
+
         @media (min-width: 768px) {
             .header-container {
                 margin-bottom: 60px;
@@ -811,19 +963,6 @@
                 width: 100%;
                 justify-content: flex-end;
             }
-			
-			    .tour-buttons {
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin-top: 5px;
-    }
-    
-    .tour-btn {
-        padding: 6px 10px;
-        font-size: 12px;
-        min-width: 30px;
-    }
             
             .date {
                 order: 2;
@@ -836,6 +975,13 @@
             
             .tour-buttons {
                 order: 3;
+            }
+            
+            /* Адаптация кнопок туров для мобильных */
+            .tour-btn {
+                padding: 6px 10px;
+                font-size: 12px;
+                min-width: 30px;
             }
         }
         
@@ -855,16 +1001,37 @@
                 font-size: 13px;
             }
             
-            .tour2-content {
+            .tour2-content,
+            .tour3-confirm-content,
+            .tour3-robot-content,
+            .tour3-riddle-content {
                 padding: 20px;
             }
             
-            .tour2-title {
-                font-size: 24px;
+            .tour2-title,
+            .tour3-confirm-title,
+            .tour3-robot-title,
+            .tour3-riddle-title {
+                font-size: 20px;
             }
             
-            .tour2-text {
-                font-size: 16px;
+            .tour2-text,
+            .tour3-confirm-text,
+            .tour3-robot-text,
+            .tour3-riddle-text {
+                font-size: 14px;
+            }
+            
+            .tour3-confirm-buttons,
+            .tour3-robot-buttons,
+            .tour3-riddle-buttons {
+                flex-direction: column;
+            }
+            
+            .tour3-confirm-btn,
+            .tour3-robot-btn,
+            .tour3-riddle-btn {
+                width: 100%;
             }
         }
     </style>
@@ -881,6 +1048,7 @@
             <div class="tour-buttons">
                 <button class="tour-btn active" id="tour1-btn">I тур</button>
                 <button class="tour-btn" id="tour2-btn">II тур</button>
+                <button class="tour-btn" id="tour3-btn">III тур</button>
             </div>
         </div>
         
@@ -993,7 +1161,7 @@
                 <div class="character-card">
                     <h2 class="title">Бэда Эйллынз</h2>
                     <div class="character-info">
-                        <p>В классическом арабском بدع (Beda‘) — это существительное, означающее «причуда», «новшество», «нововведение», особенно в религиозном или культурном контексте, часто с негативной коннотацией «ересь», «неправильное нововведение». Это слово встречается в арабских словарях, например, в классическом Лидже или Казвини.</p>
+                        <p>В классическом арабском بدع (Beda‘) — это существительное, означающее «причуду», «новшество», «нововведение», особенно в религиозном или культурном контексте, часто с негативной коннотацией «ересь», «неправильное нововведение». Это слово встречается в арабских словарях, например, в классическом Лидже или Казвини.</p>
                         <br>
                         <p><strong>Возраст:</strong> 16 лет</p>
                         <p><strong>Родом из:</strong> Газиантеп, Анатолия</p>
@@ -1060,7 +1228,60 @@
         <div class="tour2-content">
             <h2 class="tour2-title">Контент недоступен</h2>
             <p class="tour2-text">Сериал "Потерянная в песках. Путь домой" больше недоступен для просмотра. Подробности только на официальной странице Cockroach Quibbler!</p>
-            <a href="/cockroachquibbler.html" class="tour2-link" target="_blank">Перейти на сайт</a>
+            <a href="CockroachQuibbler.html" class="tour2-link" target="_blank">Перейти на сайт</a>
+        </div>
+    </div>
+    
+    <!-- Модальные окна для III тура -->
+    <div class="tour3-confirm-modal" id="tour3-confirm-modal">
+        <div class="tour3-confirm-content">
+            <h2 class="tour3-confirm-title">Подтверждение перехода</h2>
+            <p class="tour3-confirm-text">Вы собираетесь покинуть наш сайт и перейти по внешней ссылке. Вы уверены, что хотите это сделать?</p>
+            <div class="tour3-confirm-buttons">
+                <button class="tour3-confirm-btn tour3-confirm-cancel" id="tour3-confirm-cancel">Отмена</button>
+                <button class="tour3-confirm-btn tour3-confirm-proceed" id="tour3-confirm-proceed">Перейти</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tour3-robot-modal" id="tour3-robot-modal">
+        <div class="tour3-robot-content">
+            <h2 class="tour3-robot-title">Проверка безопасности</h2>
+            <p class="tour3-robot-text">Для начала давайте убедимся в том, что вы не робот</p>
+            <div class="tour3-robot-options">
+                <div class="tour3-robot-option">
+                    <input type="checkbox" id="not-robot">
+                    <label for="not-robot">Я не робот</label>
+                </div>
+                <div class="tour3-robot-option">
+                    <input type="checkbox" id="is-robot">
+                    <label for="is-robot">Я робот</label>
+                </div>
+            </div>
+            <div class="tour3-robot-buttons">
+                <button class="tour3-robot-btn tour3-robot-cancel" id="tour3-robot-cancel">Отмена</button>
+                <button class="tour3-robot-btn tour3-robot-submit" id="tour3-robot-submit" disabled>Продолжить</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tour3-riddle-modal" id="tour3-riddle-modal">
+        <div class="tour3-riddle-content">
+            <h2 class="tour3-riddle-title">Загадка</h2>
+            <p class="tour3-riddle-text">Это задание было настолько простым, что невыполнение его роботом свидетельствовало бы о серьезных проблемах в его функционале. <br> Так, о чем это я... ах, да. <br>Ответьте на загадку, сколько верблюдов вы видите и переходите уже по этой внешней ссылке.</p>
+            <div class="tour3-camels-container">
+                <span>🐫</span>
+                <span>🐫</span>
+                <span>🐫</span>
+                <span>🐫</span>
+                <span>🐫</span>
+            </div>
+            <input type="number" class="tour3-riddle-input" id="tour3-riddle-input" placeholder="Количество">
+            <p class="tour3-error" id="tour3-riddle-error">Неверное количество верблюдов! Попробуйте еще раз.<br></p><br>
+            <div class="tour3-riddle-buttons">
+                <button class="tour3-riddle-btn tour3-riddle-cancel" id="tour3-riddle-cancel">Отмена</button>
+                <button class="tour3-riddle-btn tour3-riddle-submit" id="tour3-riddle-submit">Перейти</button>
+            </div>
         </div>
     </div>
 
@@ -1096,7 +1317,23 @@
             const closeWarningModal = document.getElementById('close-warning-modal');
             const tour1Btn = document.getElementById('tour1-btn');
             const tour2Btn = document.getElementById('tour2-btn');
+            const tour3Btn = document.getElementById('tour3-btn');
             const tour2Modal = document.getElementById('tour2-modal');
+            
+            // Элементы для III тура
+            const tour3ConfirmModal = document.getElementById('tour3-confirm-modal');
+            const tour3RobotModal = document.getElementById('tour3-robot-modal');
+            const tour3RiddleModal = document.getElementById('tour3-riddle-modal');
+            const tour3ConfirmCancel = document.getElementById('tour3-confirm-cancel');
+            const tour3ConfirmProceed = document.getElementById('tour3-confirm-proceed');
+            const tour3RobotCancel = document.getElementById('tour3-robot-cancel');
+            const tour3RobotSubmit = document.getElementById('tour3-robot-submit');
+            const tour3RiddleCancel = document.getElementById('tour3-riddle-cancel');
+            const tour3RiddleSubmit = document.getElementById('tour3-riddle-submit');
+            const notRobotCheckbox = document.getElementById('not-robot');
+            const isRobotCheckbox = document.getElementById('is-robot');
+            const tour3RiddleInput = document.getElementById('tour3-riddle-input');
+            const tour3RiddleError = document.getElementById('tour3-riddle-error');
             
             // Инициализация слайдера под первым пунктом меню
             const firstItem = document.querySelector('.menu li[data-section="home"]');
@@ -1155,42 +1392,113 @@
             });
             
             // Обработчики кнопок туров
-tour1Btn.addEventListener('click', function() {
-    tour1Btn.classList.add('active');
-    tour2Btn.classList.remove('active');
-    tour2Modal.style.display = 'none';
-    
-    // Добавьте этот код для переключения на главную секцию
-    sections.forEach(section => {
-        section.classList.remove('active');
-    });
-    document.getElementById('home').classList.add('active');
-    
-    // Обновляем слайдер меню
-    const homeMenuItem = document.querySelector('.menu li[data-section="home"]');
-    updateSlider(homeMenuItem);
-});
-
-// Функция для адаптации кнопок туров
-    function adaptTourButtons() {
-        if (window.innerWidth <= 767) {
-            tour1Btn.textContent = 'I';
-            tour2Btn.textContent = 'II';
-        } else {
-            tour1Btn.textContent = 'I тур';
-            tour2Btn.textContent = 'II тур';
-        }
-    }
-
-    // Вызываем при загрузке и изменении размера окна
-    window.addEventListener('resize', adaptTourButtons);
-    adaptTourButtons();
-
-			
+            tour1Btn.addEventListener('click', function() {
+                tour1Btn.classList.add('active');
+                tour2Btn.classList.remove('active');
+                tour3Btn.classList.remove('active');
+                tour2Modal.style.display = 'none';
+                
+                // Переключение на главную секцию
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById('home').classList.add('active');
+                
+                // Обновляем слайдер меню
+                const homeMenuItem = document.querySelector('.menu li[data-section="home"]');
+                updateSlider(homeMenuItem);
+            });
+            
             tour2Btn.addEventListener('click', function() {
                 tour2Btn.classList.add('active');
                 tour1Btn.classList.remove('active');
+                tour3Btn.classList.remove('active');
                 tour2Modal.style.display = 'flex';
+            });
+            
+            tour3Btn.addEventListener('click', function() {
+                tour3Btn.classList.add('active');
+                tour1Btn.classList.remove('active');
+                tour2Btn.classList.remove('active');
+                tour3ConfirmModal.style.display = 'flex';
+            });
+            
+            // Обработчики для III тура
+            tour3ConfirmCancel.addEventListener('click', function() {
+                tour3ConfirmModal.style.display = 'none';
+                tour1Btn.classList.add('active');
+                tour3Btn.classList.remove('active');
+            });
+            
+            tour3ConfirmProceed.addEventListener('click', function() {
+                tour3ConfirmModal.style.display = 'none';
+                tour3RobotModal.style.display = 'flex';
+            });
+            
+            tour3RobotCancel.addEventListener('click', function() {
+                tour3RobotModal.style.display = 'none';
+                tour1Btn.classList.add('active');
+                tour3Btn.classList.remove('active');
+            });
+            
+            // Обработка выбора "я робот" / "я не робот"
+            notRobotCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    isRobotCheckbox.checked = false;
+                    tour3RobotSubmit.disabled = false;
+                } else {
+                    tour3RobotSubmit.disabled = true;
+                }
+            });
+            
+            isRobotCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    notRobotCheckbox.checked = false;
+                    tour3RobotSubmit.disabled = false;
+                } else {
+                    tour3RobotSubmit.disabled = true;
+                }
+            });
+            
+            tour3RobotSubmit.addEventListener('click', function() {
+                if (isRobotCheckbox.checked) {
+                    // Если выбрано "я робот"
+                    tour3RobotModal.style.display = 'none';
+                    tour1Btn.classList.add('active');
+                    tour3Btn.classList.remove('active');
+                } else if (notRobotCheckbox.checked) {
+                    // Если выбрано "я не робот"
+                    tour3RobotModal.style.display = 'none';
+                    tour3RiddleModal.style.display = 'flex';
+                    tour3RiddleInput.value = '';
+                    tour3RiddleError.style.display = 'none';
+                }
+            });
+            
+            tour3RiddleCancel.addEventListener('click', function() {
+                tour3RiddleModal.style.display = 'none';
+                tour1Btn.classList.add('active');
+                tour3Btn.classList.remove('active');
+            });
+            
+            tour3RiddleSubmit.addEventListener('click', function() {
+                if (tour3RiddleInput.value === '5') {
+                    // Правильный ответ - переход по ссылке
+                    window.open('https://example.com', '_blank');
+                    tour3RiddleModal.style.display = 'none';
+                    tour1Btn.classList.add('active');
+                    tour3Btn.classList.remove('active');
+                } else {
+                    // Неправильный ответ - показать ошибку
+                    tour3RiddleError.style.display = 'block';
+                }
+            });
+            
+            // Обработка нажатия Enter в поле ввода загадки
+            tour3RiddleInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    tour3RiddleSubmit.click();
+                }
             });
             
             // Закрытие модальных окон при клике вне их
@@ -1208,6 +1516,21 @@ tour1Btn.addEventListener('click', function() {
                     tour2Modal.style.display = 'none';
                     tour1Btn.classList.add('active');
                     tour2Btn.classList.remove('active');
+                }
+                if (event.target === tour3ConfirmModal) {
+                    tour3ConfirmModal.style.display = 'none';
+                    tour1Btn.classList.add('active');
+                    tour3Btn.classList.remove('active');
+                }
+                if (event.target === tour3RobotModal) {
+                    tour3RobotModal.style.display = 'none';
+                    tour1Btn.classList.add('active');
+                    tour3Btn.classList.remove('active');
+                }
+                if (event.target === tour3RiddleModal) {
+                    tour3RiddleModal.style.display = 'none';
+                    tour1Btn.classList.add('active');
+                    tour3Btn.classList.remove('active');
                 }
             });
 
@@ -1313,6 +1636,23 @@ tour1Btn.addEventListener('click', function() {
             closeWarningModal.addEventListener('click', function() {
                 warningModal.style.display = 'none';
             });
+            
+            // Адаптация текста кнопок туров для мобильных устройств
+            function adaptTourButtons() {
+                if (window.innerWidth <= 767) {
+                    tour1Btn.textContent = 'I';
+                    tour2Btn.textContent = 'II';
+                    tour3Btn.textContent = 'III';
+                } else {
+                    tour1Btn.textContent = 'I тур';
+                    tour2Btn.textContent = 'II тур';
+                    tour3Btn.textContent = 'III тур';
+                }
+            }
+
+            // Вызываем при загрузке и изменении размера окна
+            window.addEventListener('resize', adaptTourButtons);
+            adaptTourButtons();
         });
     </script>
 </body>
