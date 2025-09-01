@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BedaTragedian — Вики</title>
+  <style>
+    /* ====== СТИЛИ А-ЛЯ ВИКИПЕДИЯ ====== */
+    :root{
+      --bg:#f6f6f6; --text:#202122; --muted:#54595d; --link:#0645ad; --link-visited:#0b0080; --border:#a2a9b1; --tablehead:#eaecf0; --infobox:#f8f9fa;
+    }
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family: sans-serif; line-height: 1.6;}
+    a{color:var(--link);text-decoration:none}
+    a:visited{color:var(--link-visited)}
+    a:hover{text-decoration:underline}
+    .mw-page{display:flex;gap:16px;max-width:1100px;margin:0 auto;padding:16px}
+    .mw-sidebar{width:180px;flex:0 0 180px;font-size:14px;color:var(--muted)}
+    .mw-body{flex:1;background:white;border:1px solid var(--border);box-shadow:0 1px 0 rgba(0,0,0,.02)}
+    .mw-body .content{padding:20px 24px}
+    header.mw-header{border-bottom:1px solid var(--border);background:linear-gradient(#ffffff,#fbfbfb)}
+    header.mw-header .title{font-size:32px;line-height:1.2;margin:0;padding:16px 24px 12px 24px; font-family: Georgia, "Times New Roman", Times, serif;}
+    header.mw-header .desc{margin:-8px 24px 16px 24px;color:var(--muted);font-size:14px}
+
+    /* Инфобокс */
+    .infobox{float:right;margin:0 0 16px 24px;background:var(--infobox);border:1px solid var(--border);font-size:14px;width:300px}
+    .infobox caption{background:var(--tablehead);padding:8px 10px;font-weight:bold;border-bottom:1px solid var(--border)}
+    .infobox td,.infobox th{padding:6px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+    .infobox th{width:35%;color:var(--muted);font-weight:normal}
+
+    /* TOC */
+    .toc{border:1px solid var(--border);background:var(--infobox);padding:8px 12px;margin:8px 0 16px 0;font-size:14px}
+    .toc .toctitle{font-weight:bold;margin-bottom:6px}
+    .toc ul{list-style:none;margin:0;padding-left:0}
+    .toc li{margin:2px 0}
+
+    /* Заголовки - ШРИФТ С ЗАСЕЧКАМИ */
+    h2, h3 {
+      font-family: Georgia, "Times New Roman", Times, serif;
+    }
+    h2{border-bottom:1px solid var(--border);padding-bottom:4px;margin-top:28px}
+    h3{margin-top:20px}
+
+    /* Таблицы */
+    .wikitable{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px}
+    .wikitable th,.wikitable td{border:1px solid var(--border);padding:8px 10px}
+    .wikitable th{background:var(--tablehead);text-align:left}
+
+    /* Навигация снизу */
+    .navbox{border:1px solid var(--border);background:var(--infobox);padding:8px 12px;margin:24px 0 8px 0;font-size:14px}
+    .footer{color:var(--muted);font-size:12px;padding:16px 24px;border-top:1px solid var(--border)}
+
+    /* Служебные детали */
+    .hatnote{font-size:13px;color:var(--muted);}
+    .mw-edit{font-size:12px;color:var(--muted);margin-left:6px}
+    .nowrap{white-space:nowrap}
+    .badge{display:inline-block;border:1px solid var(--border);background:#fff;padding:0 6px;border-radius:10px;font-size:12px;color:var(--muted)}
+    .langlinks{font-size:12px;color:var(--muted);margin-bottom: 15px;}
+
+    /* Боковая панель */
+    .sidebar-nav h3 {font-size: 14px; margin: 15px 0 8px 0; color: var(--text);}
+    .sidebar-nav ul {list-style: none; margin: 0; padding: 0;}
+    .sidebar-nav li {margin: 3px 0; font-size: 14px;}
+    .sidebar-nav a {display: block; padding: 3px 0;}
+
+    /* Логотип */
+    .wiki-logo {display: block; margin-bottom: 15px;}
+    .wiki-logo img {max-width: 100%; height: auto;}
+
+    /* Модальное окно */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 400px;
+      text-align: center;
+      position: relative;
+    }
+    .modal-title {
+      font-family: Georgia, "Times New Roman", Times, serif;
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #202122;
+    }
+    .modal-image {
+      max-width: 30%;
+      margin: 0 auto 15px auto;
+      display: block;
+    }
+    .modal-close-top {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .modal-close-btn {
+      background-color: #eaecf0;
+      border: 1px solid #a2a9b1;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 15px;
+      font-family: sans-serif;
+    }
+    .modal-close-btn:hover {
+      background-color: #d5d9e0;
+    }
+
+    @media (max-width: 960px){
+      .mw-page{flex-direction:column}
+      .mw-sidebar{order:2;width:auto}
+      .infobox{float:none;margin:0 0 16px 0;width:100%}
+    }
+  </style>
+</head>
+<body>
+  <!-- Модальное окно -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close-top" onclick="closeModal()">&times;</span>
+      <div class="modal-title"><strong>Снова ты...</strong></div>
+      <img id="modal-image" class="modal-image" src="https://radika1.link/2025/08/30/TARAKAN-OKNO7be571b1a5368382.png" alt="Модальное окно">
+      <p id="modal-text"></p>
+      <button class="modal-close-btn" onclick="closeModal()">Закрыть</button>
+    </div>
+  </div>
+
+  <div class="mw-page">
+    <aside class="mw-sidebar">
+      <!-- Логотип вместо текста о языке -->
+      <a href="#" class="wiki-logo">
+        <img src="https://radika1.link/2025/08/29/LOGO39d457e8a89bd94f4.png" alt="Логотип энциклопедии">
+      </a>
+      
+      <nav class="sidebar-nav">
+        <h3>Навигация</h3>
+        <ul>
+          <li><a href="#" onclick="showModal(event)">Заглавная страница</a></li>
+          <li><a href="#" onclick="showModal(event)">Содержание</a></li>
+          <li><a href="#" onclick="showModal(event)">Избранные статьи</a></li>
+          <li><a href="#" onclick="showModal(event)">Случайная статья</a></li>
+          <li><a href="#" onclick="showModal(event)">Текущие события</a></li>
+        </ul>
+        
+        <h3>Участие</h3>
+        <ul>
+          <li><a href="#" onclick="showModal(event)">Сообщить об ошибке</a></li>
+          <li><a href="#" onclick="showModal(event)">Сообщество</a></li>
+          <li><a href="#" onclick="showModal(event)">Форум</a></li>
+          <li><a href="#" onclick="showModal(event)">Свежие правки</a></li>
+        </ul>
+        
+        <h3>Инструменты</h3>
+        <ul>
+          <li><a href="#" onclick="showModal(event)">Ссылки сюда</a></li>
+          <li><a href="#" onclick="showModal(event)">Связанные правки</a></li>
+          <li><a href="#" onclick="showModal(event)">Служебные страницы</a></li>
+          <li><a href="#" onclick="showModal(event)">Постоянная ссылка</a></li>
+        </ul>
+        
+        <h3>В других проектах</h3>
+        <ul>
+          <li><a href="#" onclick="showModal(event)">Викисклад</a></li>
+          <li><a href="https://mhd25-hogflix.github.io/" target="_blank">HogFlix</a></li>
+          <li><a href="https://mhd25-hogflix.github.io/cockroachquibbler.html" target="_blank">Cockroach Quibbler</a></li>
+          <li><a href="https://mhd25-hogflix.github.io/magictazin.html" target="_blank">Волшебный Тажин</a></li>
+        </ul>
+        
+        <h3>Печать/экспорт</h3>
+        <ul>
+          <li><a href="#" onclick="showModal(event)">Скачать как PDF</a></li>
+          <li><a href="#" onclick="showModal(event)">Версия для печати</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="mw-body" role="main">
+      <header class="mw-header">
+        <h1 class="title">BedaTragedian  <span class="mw-edit">[править | править код]</span></h1>
+        <p class="desc">сатирический персонаж, кинокритикесса, явившаяся миру исключительно для освещения одного-единственного, но знакового события. ее биография, как и лучшие сюжеты, окутана вымыслом и строится на уверенности в себе, не подкрепленной послужным списком.</p>
+      </header>
+
+      <div class="content">
+        <table class="infobox" aria-label="Инфобокс: BedaTragedian">
+          <caption>BedaTragedian</caption>
+          <tr>
+            <td colspan="2" style="text-align: center;">
+              <img src="https://radika1.link/2025/09/01/BEDAPEDIY12838a5e19b07421a.png" alt="Портрет BedaTragedian" style="width: 100%;">
+            </td>
+          </tr>
+          <tr><th>Имя при рождении</th><td>Блейк Эллингтон</td></tr>
+          <tr><th>Дата рождения</th><td>09.02.2010</td></tr>
+          <tr><th>Место рождения</th><td><a href="#" onclick="showModal(event)"> France, Ottori Soul</a></td></tr>
+          <tr><th>Род занятий</th><td>все, везде и сразу</td></tr>
+          <tr><th>Годы активности</th><td>≈ 2022 — н.в.</td></tr>
+          <tr><th>Девиз</th><td><em>«Деньги не проблема»</em></td></tr>
+          <tr><th>Известность</th><td>обзоры восточных сериалов, премия «Деревянный Верблюд»</td></tr>
+        </table>
+
+        <div class="toc" role="navigation" aria-label="Содержание">
+          <div class="toctitle">Содержание</div>
+          <ul>
+            <li><a href="#bio">1 Биография</a></li>
+            <li><a href="#style">2 Творческий стиль</a></li>
+            <li><a href="#award">3 «Деревянный Верблюд»</a></li>
+            <li><a href="#reviews">4 Избранные обзоры</a></li>
+            <li><a href="#reception">5 Реакция критиков</a></li>
+            <li><a href="#notes">6 Примечания</a></li>
+            <li><a href="#see-also">7 См. также</a></li>
+          </ul>
+        </div>
+        <p class="hatnote">Эта статья посвящена персонажу, скрывающемуся под всевдонимом BedaTragedian. В настоящей Википедии есть статьи о современной медийной персоне, вдохновившей на создание персонажа с этим псевдонимом. Подробнее см.: <a href="https://ru.wikipedia.org/wiki/BadComedian">Баженов; Баженов, Евгений, BadComedian</a>.</p>
+
+        <h2 id="bio">Биография</h2>
+        <p>Достоверные сведения о жизни Бэды Трагедиан отсутствуют. По одной из апокрифических версий, она родилась в муках творческого кризиса, в момент острого приступа безысходности при написании работы для третьего тура одного известного конкурса, да так и осталась жить в его материалах<a href="#note-1"><sup>[1]</sup></a>. Сама критикесса, впрочем, настаивает на более пафосной версии, заявляя, что «родилась на закрытом показе и с тех пор не покидала кинозал №3»<a href="#note-2"><sup>[2]</sup></a>.
+
+Её единственным и дебютным появлением в медийном поле стал разбор <a href="">[Сон Джалаладдина (спец.эпизод)]</a>, после которого Бэда Трагедиан удалилась в небытие — то ли чтобы не портить статистику, то ли чтобы сохранить идеальный баланс кринжа и трагедии в своём послужном списке, однако сама критикесса утверждает, что «родилась на закрытом показе и с тех пор не покидала кинозал».</p>
+
+        <h2 id="style">Творческий стиль</h2>
+        <p>Ее стиль — это критический винегрет, где терминология из кинотеории соседствует с уличным сленгом, а "глубокомысленный" анализ внезапно обрубается едкой шуткой. По ее собственному видению, главная задача — «не анализировать, а ампутировать лишнее», оставляя на виду лишь самый кристаллизованный кринж<a href="#note-3"><sup>[3]</sup></a>. И хотя со стороны кажется, что она недолюбливает то, что делает, в ее работах сквозит своеобразная любовь к объекту насмешек. Для нее это — наглядное пособие по тому, как делать нельзя, и поэтому оно бесценно.</p>
+
+        <h2 id="award">Премия «Деревянный Верблюд»</h2>
+        <p>В 2025 году Трагедиан учредила собственную кинопремию — «Деревянный Верблюд». Эта награда вручается за самое частое и нелепое упоминание верблюдов в кино и сериалах, когда животное вставляют в сюжет настойчиво и абсолютно бессмысленно<a href="#note-4"><sup>[4]</sup></a>.
+
+По задумке автора, премия является не инструментом позора, а скорее «поощрительным призом за упорство» — своеобразной отметкой за неуклонное стремление создателей вписать верблюда в любое повествование, несмотря ни на логику, ни на географию, ни на жанр произведения.</p>
+
+        <h2 id="reviews">Избранные обзоры</h2>
+        <table class="wikitable">
+          <thead>
+            <tr>
+              <th style="width:80px">Год</th>
+              <th>Название</th>
+              <th style="width:220px">Формат</th>
+              <th style="width:140px">Статус</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2025</td>
+              <td><a href="#"><em>Плачущий султан</em></a></td>
+              <td>рецензия</td>
+              <td>недоступно в большинстве стран мира</td>
+            </tr>
+            <tr>
+              <td>2025</td>
+              <td><a href="#"><em>Верблюд без тени</em></a></td>
+              <td>видео-обзор</td>
+              <td>удалено с позором</td>
+            </tr>
+            <tr>
+              <td>2025</td>
+              <td><a href="#"><em>Тридцать три принцессы и один султан</em></a></td>
+              <td>стендап‑разбор</td>
+              <td>не опубликовано</td>
+            </tr>
+            <tr>
+              <td>2025</td>
+              <td><a href="obzor-poteryannaya-v-peskah.html"><strong>Потерянная в песках. Сон Джалладина</strong></a></td>
+              <td>спецвыпуск, премия «Деревянный Верблюд»</td>
+              <td><a href="obzor-poteryannaya-v-peskah.html">читать обзор</a></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 id="reception">Реакция критиков</h2>
+        <ul>
+          <li>Скептично настроенные обозреватели, считают её выходку пустым троллингом и видят в ее действиях признаки «циничного инфантилизма». По их мнению<a href="#note-5"><sup>[5]</sup></a>, ее метод — это не критика, а клоунада, которая лишь усугубляет хаос, творящийся на сегодняшних афишах.</li>
+          <li>Сама Трагедиан традиционно игнорирует полемику вокруг своей персоны, позволяя единственному тексту говорить за себя. Эта стратегия молчания лишь подогревает интерес и укрепляет её статус загадочного и провокационного феномена в мире кинодискурса.</li>
+        </ul>
+
+        <h2 id="notes">Примечания</h2>
+        <ol>
+          <li id="note-1"><a href="https://dhog.org/viewtopic.php?t=5317">Конкурс Мистер & Мисс Хогвартс Дамблдора 2025</a> — Школа Волшебства и Магии Хогвартс Дамблдора, 2025.</li>
+          <li id="note-2">Кинотеатр <a href="https://rave.dhog.org/viewforum.php?f=16">"Raven Cinema"</a>, 2025, кинозал №3</li>
+          <li id="note-3">Официальный канал Бэды Трагедиан на <a href="#" onclick="showModal(event)">YouTube</a></li>
+          <li id="note-4"><i>«Деревянный Верблюд»: новая премия за интеграцию верблюдов в киноиндустрию</i> // КиноПресс, 21 августа 2025</li>
+          <li id="note-5">Редакционная статья // «Серьёзное кино», 2025, <a href="#" onclick="showModal(event)">№2</a></li>
+        </ol>
+
+        <h2 id="see-also">См. также</h2>
+        <ul>
+          <li><a href="#award">Деревянный Верблюд</a></li>
+          <li><a href="#" onclick="showModal(event)">Турецкие сериалы</a></li>
+          <li><a href="#" onclick="showModal(event)">Коллективный кринж</a></li>
+        </ul>
+
+        <div class="navbox">
+          <strong>Связанные темы:</strong> <a href="#bio">BedaTragedian</a> • <a href="https://mhd25-hogflix.github.io/">Потерянная в песках. Путь домой</a> • <a href="#")">Невышедшее: Сон Джалаладдина</a> • <a href="#" onclick="showModal(event)">Кинокритика</a>
+        </div>
+      </div>
+
+      <div class="footer">Материал из кринжовой фан-вики. Последнее изменение страницы — сегодня.</div>
+    </main>
+  </div>
+
+  <script>
+    // Массив с сообщениями
+    const messages = [
+	"Ладно, окей, это ссылка потенциально не опасная, и с высокой долей вероятности полезная. Но что ты хочешь там найти?",
+      "Да, хватит уже их нажимать! Там ничего нет!",
+      "Сия дверь ведёт в сады, что ещё не взросли",
+      "Эти ссылки ведут в никуда. Как и твои надежды найти здесь что-то полезное.",
+      "Вы только что получили роль в моём следующем обзоре: «Наивный зритель кликает на пустоту». Поздравляю!",
+      "Истинное знание — в осознании того, что кликать больше не на что.",
+      "Закрытых показов не бывает. А пустых ссылок — сколько угодно.",
+      "Премия «Резиновая Ежевика» в номинации «Самая безнадёжная ссылка»!",
+      "Вы обнаружили секретный эпизод: «Сон верстальщика, который всё не успевал».",
+      "Опасайтесь духов-искусителей, обещающих работающие ссылки.",
+      "Здесь могла бы быть ваша цитата... но её унесло ветром пустыни.",
+      "Это не ошибка 404. Это — художественная задумка."
+ ];
+
+    // Функция для показа модального окна
+    function showModal(event) {
+      event.preventDefault(); // Предотвращаем переход по ссылке
+      
+      // Выбираем случайное сообщение
+      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+      
+      // Устанавливаем сообщение в модальное окно
+      document.getElementById('modal-text').textContent = randomMessage;
+      
+      // Показываем модальное окно
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    // Функция для закрытия модального окна
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    // Закрытие модального окна при клике вне его содержимого
+    window.onclick = function(event) {
+      const modal = document.getElementById('modal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+  </script>
+</body>
+</html>
